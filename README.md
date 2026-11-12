@@ -29,6 +29,6 @@ Home, About, Our Companies, Contact, 404, and one page per company: Interior & T
 
 ## Live hosting (GitHub Pages)
 - Live: https://sajidgroup.com (domain at Namecheap, DNS points to GitHub Pages; the `CNAME` file holds the domain).
-- Deploy: run `node build.js`, commit, push to `main`. The workflow in `.github/workflows/pages.yml` publishes only the site files (not `build.js`, `profile.js`, `BRIEF.md`, `README.md`).
+- Deploy: run `node build.js`, commit, push to `main`. The workflow in `.github/workflows/pages.yml` publishes only the site files (not `build.js`, `profile.js`, `README.md`).
 - Old preview: https://sajidgroup.pages.dev (Cloudflare Pages, no longer updated).
 - Shareable profile: `node profile.js` writes `outputs/sajid_group_profile.html` (not deployed).
