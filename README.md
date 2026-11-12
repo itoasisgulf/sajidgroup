@@ -32,3 +32,11 @@ Home, About, Our Companies, Contact, 404, and one page per company: Interior & T
 - Deploy: run `node build.js`, commit, push to `main`. The workflow in `.github/workflows/pages.yml` publishes only the site files (not `build.js`, `profile.js`, `README.md`).
 - Old preview: https://sajidgroup.pages.dev (Cloudflare Pages, no longer updated).
 - Shareable profile: `node profile.js` writes `outputs/sajid_group_profile.html` (not deployed).
+
+## Photo credits
+Company photos in `assets/img/` (1200x750) are from Unsplash under the free Unsplash License (commercial use, no attribution required):
+- interior.jpg: unsplash.com/photos/nulJA9vxJII
+- realestate.jpg: unsplash.com/photos/QBb5aJIZM20
+- pest.jpg: unsplash.com/photos/xRmX-dkCI3U
+- advertising.jpg: unsplash.com/photos/CYrYxz-uvE4
+- corporate.jpg: unsplash.com/photos/OQMZwNd3ThU

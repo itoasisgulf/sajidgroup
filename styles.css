@@ -95,7 +95,7 @@ p+p{margin-top:.9em}
 .svc .ic{color:var(--gold);margin-top:2px}
 .note{margin-top:1.2rem;font-size:.9rem}
 .side{position:sticky;top:96px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.6rem}
-.side-img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;margin-bottom:1.2rem}
+.side-img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:10px;margin-bottom:1.2rem}
 .side p{color:var(--mut);margin:.3rem 0 .4rem}
 .pills.dark{margin-top:0}
 /* about */

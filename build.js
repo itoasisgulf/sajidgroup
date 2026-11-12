@@ -256,7 +256,7 @@ ${body}
 
   const itLogo = cls => `<div class="co-logo${cls || ''}"><img src="${img}itoasis.png" alt="${ar ? 'شعار آي تي أويسس' : 'IT Oasis UAE logo'}" loading="lazy" width="260" height="142"></div>`;
   const card = d => `<article class="co reveal">
-  <div class="co-media">${d.logo ? itLogo() : `<img src="${img}${d.img}" alt="${x(d.name)}" loading="lazy" width="198" height="148">`}<span class="co-ic">${ic(d.icon)}</span></div>
+  <div class="co-media">${d.logo ? itLogo() : `<img src="${img}${d.img}" alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" loading="lazy" width="1200" height="750">`}<span class="co-ic">${ic(d.icon)}</span></div>
   <div class="co-body"><p class="eyebrow">${x(d.short)}</p><h3>${x(d.name)}</h3><p>${x(d.tag)}.</p>
   <div class="co-actions"><a class="link" href="${d.slug}.html">${x(S.view)} ${ic('arrow', 'ic xs')}</a>${d.ext ? `<a class="btn btn-gold sm" href="${d.ext}" target="_blank" rel="noopener">${x(S.visitIt)} ${ic('ext', 'ic xs')}</a>` : ''}</div></div>
 </article>`;
@@ -330,7 +330,7 @@ ${faqSection(HOME_FAQ)}${cta()}` });
       body: head(x(d.short), x(d.name), x(d.intro), crumbs(cr)) + `<section class="sec"><div class="wrap split top">
   <div><h2 class="h3">${T('Our services', 'خدماتنا')}</h2><ul class="svc">${d.services.map(s => `<li class="reveal">${ic('check')}${x(s)}</li>`).join('')}</ul>
   ${d.alt ? `<p class="muted note">${x(d.alt)}</p>` : ''}</div>
-  <aside class="side reveal">${d.logo ? itLogo(' big') : `<img class="side-img" src="${img}${d.img}" alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" width="198" height="148">`}
+  <aside class="side reveal">${d.logo ? itLogo(' big') : `<img class="side-img" src="${img}${d.img}" alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" width="1200" height="750">`}
     <h3>${T('Get a free quote', 'احصل على عرض سعر مجاني')}</h3><p>${T('Message us with what you need and we will reply quickly.', 'راسلنا بما تحتاجه وسنرد عليك بسرعة.')}</p>
     <a class="btn btn-gold full" href="${W(T(`Hello Sajid Group, I would like a quote from ${d.name.en}.`, `مرحباً مجموعة ساجد، أود الحصول على عرض سعر من ${d.name.ar}.`))}" target="_blank" rel="noopener">${ic('wa')}${x(S.whatsapp)} ${x(d.short)}</a>
     <a class="btn btn-line full" href="${tel(C.phones[0])}">${ic('phone')}${num(C.phones[0])}</a>
