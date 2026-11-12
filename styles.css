@@ -173,3 +173,18 @@ p+p{margin-top:.9em}
 [dir=rtl] .wa-float{right:auto;left:18px}
 [dir=rtl] .lang{font-family:Inter,sans-serif}
 html[lang=en] .lang{font-family:Tajawal,sans-serif}
+/* Breadcrumbs, FAQ, office address */
+.crumbs ol{display:flex;flex-wrap:wrap;gap:.35rem;list-style:none;margin:0 0 .9rem;padding:0;font-size:.82rem;color:var(--mut)}
+.crumbs li+li::before{content:"/";margin-inline-end:.35rem;opacity:.6}
+.crumbs a{color:var(--gold2)}.crumbs a:hover{text-decoration:underline}
+.wrap.narrow{max-width:860px}
+.faq{display:grid;gap:.7rem}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 1.2rem}
+.faq summary{cursor:pointer;list-style:none;padding:1rem 2rem 1rem 0;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;inset-inline-end:0;top:.85rem;color:var(--gold);font-size:1.3rem;line-height:1}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 1rem;color:var(--mut)}
+.cards address{font-style:normal;color:var(--mut);line-height:1.6;margin-bottom:.35rem}
+.cards .link{display:inline-flex;align-items:center;gap:.3rem;font-size:.9rem}
+.contact-list a{color:inherit}

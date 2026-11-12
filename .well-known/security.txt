@@ -1,0 +1,4 @@
+Contact: mailto:sajiid.group@gmail.com
+Expires: 2027-11-12T00:00:00.000Z
+Preferred-Languages: en, ar
+Canonical: https://sajidgroup.com/.well-known/security.txt

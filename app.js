@@ -22,6 +22,6 @@ document.documentElement.classList.add('js');
     const url = btn.dataset.via === 'wa'
       ? 'https://wa.me/971528264786?text=' + encodeURIComponent(text)
       : 'mailto:sajiid.group@gmail.com?subject=' + encodeURIComponent((ar ? 'طلب عرض سعر: ' : 'Quote request: ') + d.service) + '&body=' + encodeURIComponent(text);
-    window.open(url, btn.dataset.via === 'wa' ? '_blank' : '_self');
+    if (btn.dataset.via === 'wa') window.open(url, '_blank', 'noopener'); else location.href = url;
   });
 })();
