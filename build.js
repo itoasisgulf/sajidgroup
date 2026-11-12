@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const OUT = __dirname;
-const SITE = 'https://sajidgroup.pages.dev';
+const SITE = 'https://sajidgroup.com';
 
 const C = {
   phones: ['+971 52 826 4786', '+971 52 734 1966'],

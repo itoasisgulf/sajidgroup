@@ -27,12 +27,8 @@ Every page exists in English (`/`) and Arabic (`/ar/`), with a language switch i
 
 Home, About, Our Companies, Contact, 404, and one page per company: Interior & Technical, Real Estate, Pest Control, Advertising, Corporate Services, IT Oasis UAE (links to https://itoasisgulf.com).
 
-## Live hosting (Cloudflare Pages)
-- Live: https://sajidgroup.pages.dev (project `sajidgroup`). Old project `sajid-group` only 301-redirects here.
-- Deploy:
-  ```bash
-  node build.js
-  rm -rf dist && mkdir dist && rsync -a --exclude dist --exclude inputs --exclude outputs --exclude profile.js --exclude BRIEF.md --exclude README.md --exclude build.js --exclude '.*' --exclude wrangler.jsonc ./ dist/
-  cd dist && npx wrangler@4 pages deploy . --project-name sajidgroup --branch main --commit-dirty=true
-  ```
+## Live hosting (GitHub Pages)
+- Live: https://sajidgroup.com (domain at Namecheap, DNS points to GitHub Pages; the `CNAME` file holds the domain).
+- Deploy: run `node build.js`, commit, push to `main`. The workflow in `.github/workflows/pages.yml` publishes only the site files (not `build.js`, `profile.js`, `BRIEF.md`, `README.md`).
+- Old preview: https://sajidgroup.pages.dev (Cloudflare Pages, no longer updated).
 - Shareable profile: `node profile.js` writes `outputs/sajid_group_profile.html` (not deployed).

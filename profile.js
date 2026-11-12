@@ -132,7 +132,7 @@ p+p{margin-top:.8rem}
     <div><span class="ring">${ic('mail')}</span><a href="mailto:${C.email}">${C.email}</a></div>
     <div><span class="ring">${ic('pin')}</span><span>${x(C.addr.en)}</span></div>
   </div>
-  <div class="foot"><span>Sajid Group of Companies, Dubai, UAE &nbsp;|&nbsp; sajidgroup.pages.dev</span><span>IT partner: itoasisgulf.com</span></div>
+  <div class="foot"><span>Sajid Group of Companies, Dubai, UAE &nbsp;|&nbsp; sajidgroup.com</span><span>IT partner: itoasisgulf.com</span></div>
 </section>
 </body></html>`;
 
