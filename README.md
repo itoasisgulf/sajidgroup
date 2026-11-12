@@ -20,7 +20,7 @@ python3 -m http.server 5610
 Open http://localhost:5610
 
 ## Deploy
-Upload everything except `inputs/`, `build.js`, `profile.js` and `README.md` to any static host (GitHub Pages, Netlify, Cloudflare Pages, cPanel). If the domain changes from sajidgroup.com, change `SITE` at the top of `build.js` and rebuild.
+The site is hosted on GitHub Pages at https://sajidgroup.com. Run `node build.js`, commit, and push to `main`; the workflow publishes it (see Live hosting below). If the domain changes from sajidgroup.com, change `SITE` at the top of `build.js` and the `CNAME` file, then rebuild.
 
 ## Pages
 Every page exists in English (`/`) and Arabic (`/ar/`), with a language switch in the menu and hreflang tags.
@@ -30,7 +30,6 @@ Home, About, Our Companies, Contact, 404, and one page per company: Interior & T
 ## Live hosting (GitHub Pages)
 - Live: https://sajidgroup.com (domain at Namecheap, DNS points to GitHub Pages; the `CNAME` file holds the domain).
 - Deploy: run `node build.js`, commit, push to `main`. The workflow in `.github/workflows/pages.yml` publishes only the site files (not `build.js`, `profile.js`, `README.md`).
-- Old preview: https://sajidgroup.pages.dev (Cloudflare Pages, no longer updated).
 - Shareable profile: `node profile.js` writes `outputs/sajid_group_profile.html` (not deployed).
 
 ## Photo credits
