@@ -20,7 +20,7 @@ python3 -m http.server 5610
 Open http://localhost:5610
 
 ## Deploy
-Upload everything except `inputs/`, `build.js`, `BRIEF.md` and `README.md` to any static host (GitHub Pages, Netlify, Cloudflare Pages, cPanel). If the domain is not www.sajidgroup.com, change `SITE` at the top of `build.js` and rebuild.
+Upload everything except `inputs/`, `build.js`, `profile.js` and `README.md` to any static host (GitHub Pages, Netlify, Cloudflare Pages, cPanel). If the domain changes from sajidgroup.com, change `SITE` at the top of `build.js` and rebuild.
 
 ## Pages
 Every page exists in English (`/`) and Arabic (`/ar/`), with a language switch in the menu and hreflang tags.
