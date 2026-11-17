@@ -7,6 +7,7 @@ const SITE = 'https://sajidgroup.com';
 const C = {
   phones: ['+971 52 826 4786', '+971 52 734 1966'],
   email: 'sajiid.group@gmail.com',
+  instagram: 'https://www.instagram.com/sajiid.group/',
   // Head office (Google Maps listing "Sajid Group", plus code 7842+F9 Dubai)
   office: {
     building: { en: 'Al Abbas Building', ar: 'مبنى العباس' },
@@ -39,6 +40,7 @@ const I = {
   leaf: '<path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15M5 19l7-7"/>',
   phone: '<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  ig: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   pin: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
@@ -246,6 +248,7 @@ ${body}
     <div><h3>${x(S.contact)}</h3><ul class="links contact-list">
       ${C.phones.map(p => `<li>${ic('phone')}<a href="${tel(p)}">${num(p)}</a></li>`).join('')}
       <li>${ic('mail')}<a href="mailto:${C.email}">${C.email}</a></li>
+      <li>${ic('ig')}<a href="${C.instagram}" target="_blank" rel="noopener">@sajiid.group</a></li>
       <li>${ic('pin')}<a href="${C.mapLink}" target="_blank" rel="noopener">${addrLines(', ')}</a></li>
       <li>${ic('cal')}<a href="booking.html">${x(S.book)}</a></li>
       <li>${ic('clock')}<span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></li></ul></div>
@@ -281,7 +284,7 @@ ${body}
     slogan: S.tagline[0], founder: { '@type': 'Person', name: 'Muhammad Sajid', jobTitle: 'Founder and CEO' }, ...LOCAL_LD,
     contactPoint: C.phones.map(p => ({ '@type': 'ContactPoint', telephone: p.replace(/\s/g, ''), contactType: 'customer service', areaServed: 'AE', availableLanguage: ['English', 'Arabic'] })),
     subOrganization: D.map(d => ({ '@id': `${SITE}/${d.slug}.html#business` })),
-    sameAs: [C.mapLink] });
+    sameAs: [C.mapLink, C.instagram] });
   const siteLd = () => ({ '@type': 'WebSite', '@id': SITE + '/#website', url: SITE + '/', name: S.full[0], publisher: { '@id': ORG_ID }, inLanguage: ['en', 'ar'] });
 
   pages.push({ file: 'index.html', active: 'index.html',
@@ -365,6 +368,7 @@ ${faqSection(seo.faq)}<section class="sec alt"><div class="wrap"><h2 class="h3">
   <div class="reveal"><ul class="cards">
     ${C.phones.map(p => `<li>${ic('phone', 'ic lg')}<div><b>${T('Call or WhatsApp', 'اتصال أو واتساب')}</b><a href="${tel(p)}">${num(p)}</a> &middot; <a href="${wa(p, x(S.waMsg))}" target="_blank" rel="noopener">${x(S.whatsapp)}</a></div></li>`).join('')}
     <li>${ic('mail', 'ic lg')}<div><b>${T('Email', 'البريد الإلكتروني')}</b><a href="mailto:${C.email}">${C.email}</a></div></li>
+    <li>${ic('ig', 'ic lg')}<div><b>${T('Instagram', 'إنستغرام')}</b><a href="${C.instagram}" target="_blank" rel="noopener">@sajiid.group</a></div></li>
     <li>${ic('pin', 'ic lg')}<div><b>${T('Head office', 'المكتب الرئيسي')}</b><address>${x(S.full)}<br>${addrLines('<br>')}</address><a class="link" href="${C.mapLink}" target="_blank" rel="noopener">${T('Get directions on Google Maps', 'الاتجاهات على خرائط جوجل')} ${ic('ext', 'ic xs')}</a></div></li>
     <li>${ic('clock', 'ic lg')}<div><b>${T('Office hours', 'ساعات العمل')}</b><span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></div></li>
   </ul>
