@@ -223,7 +223,7 @@ ${noindex ? '' : `<link rel="canonical" href="${url(file)}">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}/assets/img/sg-logo-og.jpg">
 <meta name="geo.region" content="AE-DU"><meta name="geo.placename" content="Bur Dubai, Dubai"><meta name="geo.position" content="${C.geo.lat};${C.geo.lng}"><meta name="ICBM" content="${C.geo.lat}, ${C.geo.lng}">
 <meta name="theme-color" content="#0b0b0c">
-<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png">
 ${fonts}${preload}
 <link rel="stylesheet" href="${base}assets/fonts-${ar ? 'ar' : 'en'}.css">
 <link rel="stylesheet" href="${base}styles.css">
