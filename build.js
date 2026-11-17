@@ -44,6 +44,8 @@ const I = {
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>',
   globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   wa: '<path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2z"/>',
 };
 const ic = (n, cls = 'ic') => `<svg class="${cls}${n === 'arrow' ? ' flip' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
@@ -174,7 +176,7 @@ const WHY = [
 // UI strings
 const S = {
   group: ['Sajid Group', 'مجموعة ساجد'], ofCos: ['of Companies', 'للشركات'], full: ['Sajid Group of Companies', 'مجموعة ساجد للشركات'],
-  nav: [['index.html', 'Home', 'الرئيسية'], ['about.html', 'About', 'من نحن'], ['companies.html', 'Our Companies', 'شركاتنا'], ['contact.html', 'Contact', 'اتصل بنا']],
+  nav: [['index.html', 'Home', 'الرئيسية'], ['about.html', 'About', 'من نحن'], ['companies.html', 'Our Companies', 'شركاتنا'], ['services.html', 'Services', 'الخدمات'], ['contact.html', 'Contact', 'اتصل بنا']],
   other: ['العربية', 'English'], skip: ['Skip to content', 'تخطي إلى المحتوى'], menu: ['Menu', 'القائمة'], whatsapp: ['WhatsApp', 'واتساب'],
   tagline: ['People | Solutions | Sustainability', 'الناس | الحلول | الاستدامة'],
   partner: ['Your trusted business partner in Dubai, UAE', 'شريكك الموثوق للأعمال في دبي، الإمارات'],
@@ -182,8 +184,10 @@ const S = {
   waMsg: ['Hello Sajid Group, I would like to know more about your services.', 'مرحباً مجموعة ساجد، أود معرفة المزيد عن خدماتكم.'],
   view: ['View services', 'عرض الخدمات'], visitIt: ['Visit IT Oasis', 'زيارة آي تي أويسس'], visitItSite: ['Visit IT Oasis website', 'زيارة موقع آي تي أويسس'],
   ctaH: ['Ready to work with us?', 'هل أنت مستعد للعمل معنا؟'], ctaP: ['Tell us what you need and the right company in our group will get back to you quickly.', 'أخبرنا بما تحتاجه وستتواصل معك الشركة المناسبة في مجموعتنا بسرعة.'],
-  waUs: ['WhatsApp us', 'راسلنا على واتساب'], call: ['Call', 'اتصل'],
+  book: ['Book a visit', 'احجز زيارة'], waUs: ['WhatsApp us', 'راسلنا على واتساب'], call: ['Call', 'اتصل'],
 };
+const AREAS = [['Bur Dubai', 'بر دبي'], ['Deira', 'ديرة'], ['Karama', 'الكرامة'], ['Downtown Dubai', 'وسط مدينة دبي'], ['Business Bay', 'الخليج التجاري'], ['Dubai Marina and JLT', 'مرسى دبي وأبراج بحيرات جميرا'], ['Jumeirah and Al Satwa', 'جميرا والساتوا'], ['Al Quoz and Al Barsha', 'القوز والبرشاء'], ['Jumeirah Village Circle', 'قرية جميرا الدائرية'], ['Dubai Silicon Oasis and Al Warqa', 'واحة دبي للسيليكون والورقاء'], ['Sharjah and Ajman', 'الشارقة وعجمان'], ['Other area in the UAE', 'منطقة أخرى في الإمارات']];
+const SLOTS = [['9:00 AM to 12:00 PM', '9:00 صباحاً إلى 12:00 ظهراً'], ['12:00 PM to 3:00 PM', '12:00 ظهراً إلى 3:00 عصراً'], ['3:00 PM to 6:00 PM', '3:00 عصراً إلى 6:00 مساءً'], ['6:00 PM to 8:00 PM', '6:00 مساءً إلى 8:00 مساءً']];
 const NOT_FOUND = { en: ['Page not found', 'The page you are looking for has moved or does not exist.', 'Back to home'], ar: ['الصفحة غير موجودة', 'الصفحة التي تبحث عنها نُقلت أو غير موجودة.', 'العودة إلى الرئيسية'] };
 
 function build(L) {
@@ -217,7 +221,7 @@ ${noindex ? '' : `<link rel="canonical" href="${url(file)}">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}/assets/img/sg-logo-og.jpg">
 <meta name="geo.region" content="AE-DU"><meta name="geo.placename" content="Bur Dubai, Dubai"><meta name="geo.position" content="${C.geo.lat};${C.geo.lng}"><meta name="ICBM" content="${C.geo.lat}, ${C.geo.lng}">
 <meta name="theme-color" content="#0b0b0c">
-<link rel="icon" type="image/png" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}favicon.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png">
 ${fonts}${preload}
 <link rel="stylesheet" href="${base}assets/fonts-${ar ? 'ar' : 'en'}.css">
 <link rel="stylesheet" href="${base}styles.css">
@@ -229,7 +233,7 @@ ${ldTag}
   <div class="wrap hdr-in">
     ${brand()}
     <button class="burger" aria-label="${x(S.menu)}" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
-    <nav id="nav" class="nav">${nav}<a class="lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a><a class="btn btn-gold sm" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${x(S.whatsapp)}</a></nav>
+    <nav id="nav" class="nav">${nav}<a class="lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a><a class="btn btn-gold sm" href="booking.html">${ic('cal')}${x(S.book)}</a></nav>
   </div>
 </header>
 <main id="main">
@@ -243,10 +247,12 @@ ${body}
       ${C.phones.map(p => `<li>${ic('phone')}<a href="${tel(p)}">${num(p)}</a></li>`).join('')}
       <li>${ic('mail')}<a href="mailto:${C.email}">${C.email}</a></li>
       <li>${ic('pin')}<a href="${C.mapLink}" target="_blank" rel="noopener">${addrLines(', ')}</a></li>
+      <li>${ic('cal')}<a href="booking.html">${x(S.book)}</a></li>
       <li>${ic('clock')}<span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></li></ul></div>
   </div>
   <div class="wrap ftr-bot"><span>&copy; <span id="yr">2026</span> ${x(S.full)}. ${x(S.rights)}</span><a href="${C.itoasis}" target="_blank" rel="noopener">${x(S.itPartner)} ${ic('ext', 'ic xs')}</a></div>
 </footer>
+<a class="call-float" href="${tel(C.phones[0])}" aria-label="${x(S.call)} ${C.phones[0]}">${ic('phone')}</a>
 <a class="wa-float" href="${W()}" target="_blank" rel="noopener" aria-label="${x(S.whatsapp)}">${ic('wa')}</a>
 <script src="${base}app.js" defer></script>
 </body>
@@ -260,7 +266,7 @@ ${body}
   <div class="co-body"><p class="eyebrow">${x(d.short)}</p><h3>${x(d.name)}</h3><p>${x(d.tag)}.</p>
   <div class="co-actions"><a class="link" href="${d.slug}.html">${x(S.view)} ${ic('arrow', 'ic xs')}</a>${d.ext ? `<a class="btn btn-gold sm" href="${d.ext}" target="_blank" rel="noopener">${x(S.visitIt)} ${ic('ext', 'ic xs')}</a>` : ''}</div></div>
 </article>`;
-  const cta = () => `<section class="cta"><div class="wrap cta-in reveal"><div><h2>${x(S.ctaH)}</h2><p>${x(S.ctaP)}</p></div><div class="btns"><a class="btn btn-gold" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${x(S.waUs)}</a><a class="btn btn-line" href="${tel(C.phones[0])}">${ic('phone')}${x(S.call)} ${num(C.phones[0])}</a></div></div></section>`;
+  const cta = () => `<section class="cta"><div class="wrap cta-in reveal"><div><h2>${x(S.ctaH)}</h2><p>${x(S.ctaP)}</p></div><div class="btns"><a class="btn btn-gold" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${x(S.waUs)}</a><a class="btn btn-line" href="booking.html">${ic('cal')}${x(S.book)}</a><a class="btn btn-line" href="${tel(C.phones[0])}">${ic('phone')}${x(S.call)} ${num(C.phones[0])}</a></div></div></section>`;
   const head = (eyebrow, h1, p, nav = '') => `<section class="phead"><div class="wrap">${nav}<p class="eyebrow">${eyebrow}</p><h1>${h1}</h1>${p ? `<p class="lead">${p}</p>` : ''}</div></section>`;
   const why = () => `<div class="grid4">${WHY.map(([i, h, p]) => `<div class="why reveal">${ic(i, 'ic lg')}<h3>${x(h)}</h3><p>${x(p)}</p></div>`).join('')}</div>`;
   const T = (en, a) => (ar ? a : en);
@@ -289,7 +295,7 @@ ${body}
     <h1 class="brand-title reveal"><span class="script">${T('Sajid Group', 'مجموعة ساجد')}</span><span class="caps">${T('of Companies', 'للشركات')}</span></h1>
     <p class="tagline reveal">${x(S.tagline).replace(/ \| /g, '<i></i>')}</p>
     <p class="lead reveal">${T('Your trusted business partner in Dubai, UAE. Six specialist companies, one trusted group: interiors, real estate, pest control, advertising, corporate services and IT.', 'شريكك الموثوق للأعمال في دبي، الإمارات. ست شركات متخصصة ومجموعة واحدة موثوقة: الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات.')}</p>
-    <div class="btns reveal"><a class="btn btn-gold" href="companies.html">${T('Explore our companies', 'تعرّف على شركاتنا')} ${ic('arrow', 'ic xs')}</a><a class="btn btn-line" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a></div>
+    <div class="btns reveal"><a class="btn btn-gold" href="companies.html">${T('Explore our companies', 'تعرّف على شركاتنا')} ${ic('arrow', 'ic xs')}</a><a class="btn btn-line" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a><a class="btn btn-line" href="booking.html">${ic('cal')}${x(S.book)}</a></div>
     <ul class="rings reveal">${D.map(d => `<li><a href="${d.slug}.html"><span class="ring">${ic(d.icon)}</span><span class="rl">${x(d.short)}</span></a></li>`).join('')}</ul>
   </div>
 </section>
@@ -372,6 +378,46 @@ ${faqSection(seo.faq)}<section class="sec alt"><div class="wrap"><h2 class="h3">
     <p class="err" role="alert" hidden>${T('Please enter your name and phone number.', 'يرجى إدخال الاسم ورقم الهاتف.')}</p>
     <div class="btns"><button class="btn btn-gold" data-via="wa">${ic('wa')}${T('Send on WhatsApp', 'إرسال عبر واتساب')}</button><button class="btn btn-line" data-via="mail">${ic('mail')}${T('Send by email', 'إرسال بالبريد')}</button></div>
   </form>
+</div></section>` });
+
+  // Services catalogue: every service of every company, with search and company filter
+  const ALL = D.flatMap(d => d.services.map((sv, i) => ({ d, i, sv })));
+  const svCrumbs = [['Home', 'index.html'], ['Services', 'services.html']];
+  pages.push({ file: 'services.html', active: 'services.html', title: T('Services in Dubai | Sajid Group of Companies', 'الخدمات | مجموعة ساجد للشركات'),
+    ld: ar ? [] : [crumbUrls(svCrumbs), { '@type': 'ItemList', name: 'Services of Sajid Group', itemListElement: ALL.map((a, n) => ({ '@type': 'ListItem', position: n + 1, name: a.sv[0], url: url(a.d.slug + '.html') })) }],
+    desc: T(`Browse every service of Sajid Group in Dubai: fit-out, maintenance, real estate, pest control, signage, PRO and IT. Request a quote or book a visit. ${C.phones[0]}.`, 'تصفح جميع خدمات مجموعة ساجد في دبي: التشطيبات والصيانة والعقارات ومكافحة الحشرات واللوحات والمندوب وتقنية المعلومات. اطلب عرض سعر أو احجز زيارة.'),
+    body: head(T('Services', 'الخدمات'), T('Every service, one trusted group', 'كل الخدمات، مجموعة واحدة موثوقة'), T('Search the full list, pick the service you need and request a quote or book a visit in a minute.', 'ابحث في القائمة الكاملة واختر الخدمة التي تحتاجها واطلب عرض سعر أو احجز زيارة خلال دقيقة.'), crumbs(svCrumbs)) + `<section class="sec"><div class="wrap">
+  <div class="svc-tools reveal"><label class="search">${ic('search')}<input type="search" id="svc-q" placeholder="${T('Search services', 'ابحث في الخدمات')}" aria-label="${T('Search services', 'ابحث في الخدمات')}"></label>
+  <div class="chips" role="group" aria-label="${T('Filter by company', 'تصفية حسب الشركة')}"><button type="button" class="chip on" data-f="all">${T('All', 'الكل')}</button>${D.map(d => `<button type="button" class="chip" data-f="${d.slug}">${x(d.short)}</button>`).join('')}</div></div>
+  <p class="muted" id="svc-none" hidden>${T('No service matches your search. Call or WhatsApp us and we will help.', 'لا توجد خدمة مطابقة. اتصل بنا أو راسلنا على واتساب وسنساعدك.')}</p>
+  ${D.map(d => `<div class="svc-group" data-g="${d.slug}"><h2 class="h3">${ic(d.icon)} <a href="${d.slug}.html">${x(d.name)}</a></h2><ul class="svc-cards">${d.services.map((sv, i) => `<li data-t="${x(sv).toLowerCase()}"><span>${x(sv)}</span><a class="link" href="booking.html?s=${d.slug}.${i}">${T('Book', 'احجز')} ${ic('arrow', 'ic xs')}</a></li>`).join('')}</ul></div>`).join('')}
+</div></section>
+<section class="sec alt"><div class="wrap"><div class="sec-head reveal"><p class="eyebrow">${T('Areas we serve', 'مناطق الخدمة')}</p><h2>${T('Across Dubai and the UAE', 'في أنحاء دبي والإمارات')}</h2></div>
+<ul class="approvals reveal">${AREAS.map(a => `<li>${ic('pin')}${x(a)}</li>`).join('')}</ul></div></section>${cta()}` });
+
+  // Booking: choose service, area, date and time, then send to WhatsApp or email
+  const bkCrumbs = [['Home', 'index.html'], ['Book a visit', 'booking.html']];
+  pages.push({ file: 'booking.html', active: 'booking.html', title: T('Book a Visit | Sajid Group of Companies, Dubai', 'احجز زيارة | مجموعة ساجد للشركات، دبي'),
+    ld: ar ? [] : [crumbUrls(bkCrumbs)],
+    desc: T(`Book a site visit or consultation with Sajid Group in Dubai. Pick the service, area, date and time, then confirm on WhatsApp. ${C.phones[0]}.`, 'احجز زيارة موقع أو استشارة مع مجموعة ساجد في دبي. اختر الخدمة والمنطقة والتاريخ والوقت ثم أكد عبر واتساب.'),
+    body: head(T('Book a visit', 'احجز زيارة'), T('Book a site visit or consultation', 'احجز زيارة موقع أو استشارة'), T('Choose the service, area, date and time. We confirm by WhatsApp or phone.', 'اختر الخدمة والمنطقة والتاريخ والوقت. نؤكد الموعد عبر واتساب أو الهاتف.'), crumbs(bkCrumbs)) + `<section class="sec"><div class="wrap split top">
+  <form class="form reveal" id="book" novalidate>
+    <h2 class="h3">${T('Your booking', 'بيانات الحجز')}</h2>
+    <label>${T('Your name', 'الاسم')}<input name="name" required autocomplete="name"></label>
+    <label>${T('Phone', 'رقم الهاتف')}<input name="phone" type="tel" dir="ltr" required autocomplete="tel"></label>
+    <label>${T('Service', 'الخدمة')}<select name="service">${D.map(d => `<optgroup label="${x(d.short)}">${d.services.map((sv, i) => `<option value="${d.slug}.${i}">${x(sv)}</option>`).join('')}</optgroup>`).join('')}</select></label>
+    <label>${T('Area', 'المنطقة')}<select name="area">${AREAS.map(a => `<option>${x(a)}</option>`).join('')}</select></label>
+    <label>${T('Preferred date', 'التاريخ المفضل')}<input name="date" type="date" dir="ltr"></label>
+    <label>${T('Preferred time', 'الوقت المفضل')}<select name="time">${SLOTS.map(a => `<option>${x(a)}</option>`).join('')}</select></label>
+    <label>${T('Details (optional)', 'تفاصيل (اختياري)')}<textarea name="msg" rows="3"></textarea></label>
+    <p class="err" role="alert" hidden>${T('Please enter your name and phone number.', 'يرجى إدخال الاسم ورقم الهاتف.')}</p>
+    <div class="btns"><button class="btn btn-gold" data-via="wa">${ic('wa')}${T('Confirm on WhatsApp', 'تأكيد عبر واتساب')}</button><button class="btn btn-line" data-via="mail">${ic('mail')}${T('Send by email', 'إرسال بالبريد')}</button></div>
+  </form>
+  <div class="reveal"><ul class="cards">
+    <li>${ic('phone', 'ic lg')}<div><b>${T('Prefer to talk?', 'تفضل الاتصال؟')}</b><a href="${tel(C.phones[0])}">${num(C.phones[0])}</a> &middot; <a href="${W()}" target="_blank" rel="noopener">${x(S.whatsapp)}</a></div></li>
+    <li>${ic('clock', 'ic lg')}<div><b>${T('Office hours', 'ساعات العمل')}</b><span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></div></li>
+    <li>${ic('pin', 'ic lg')}<div><b>${T('Head office', 'المكتب الرئيسي')}</b><address>${addrLines('<br>')}</address></div></li>
+  </ul></div>
 </div></section>` });
 
   const nf = NOT_FOUND[L];

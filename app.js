@@ -10,18 +10,51 @@ document.documentElement.classList.add('js');
     els.forEach(el => io.observe(el));
   } else els.forEach(el => el.classList.add('in'));
 
-  const f = document.getElementById('quote');
-  if (f) f.addEventListener('click', e => {
-    const btn = e.target.closest('button[data-via]'); if (!btn) return;
-    e.preventDefault();
-    const d = Object.fromEntries(new FormData(f)), err = f.querySelector('.err');
-    if (!d.name.trim() || !d.phone.trim()) { err.hidden = false; return; }
-    err.hidden = true;
-    const ar = document.documentElement.lang === 'ar';
-    const text = ar ? `مرحباً مجموعة ساجد،\nالاسم: ${d.name}\nالهاتف: ${d.phone}\nالخدمة: ${d.service}\n${d.msg}` : `Hello Sajid Group,\nName: ${d.name}\nPhone: ${d.phone}\nService: ${d.service}\n${d.msg}`;
-    const url = btn.dataset.via === 'wa'
-      ? 'https://wa.me/971528264786?text=' + encodeURIComponent(text)
-      : 'mailto:sajiid.group@gmail.com?subject=' + encodeURIComponent((ar ? 'طلب عرض سعر: ' : 'Quote request: ') + d.service) + '&body=' + encodeURIComponent(text);
-    if (btn.dataset.via === 'wa') window.open(url, '_blank', 'noopener'); else location.href = url;
-  });
+  // Quote and booking forms: send the details to WhatsApp or email (no server needed)
+  const PH = '971528264786', MAIL = 'sajiid.group@gmail.com';
+  const ar = document.documentElement.lang === 'ar';
+  const sel = (f, n) => { const e = f.elements[n]; return e && e.selectedOptions ? e.selectedOptions[0].text : (e ? e.value : ''); };
+  const wire = (f, isBook) => {
+    f.addEventListener('click', e => {
+      const btn = e.target.closest('button[data-via]'); if (!btn) return;
+      e.preventDefault();
+      const d = Object.fromEntries(new FormData(f)), err = f.querySelector('.err');
+      if (!d.name.trim() || !d.phone.trim()) { err.hidden = false; return; }
+      err.hidden = true;
+      const service = sel(f, 'service');
+      const lines = ar ? ['مرحباً مجموعة ساجد،', isBook ? 'أود حجز زيارة.' : '', `الاسم: ${d.name}`, `الهاتف: ${d.phone}`, `الخدمة: ${service}`] : ['Hello Sajid Group,', isBook ? 'I would like to book a visit.' : '', `Name: ${d.name}`, `Phone: ${d.phone}`, `Service: ${service}`];
+      if (isBook) lines.push((ar ? 'المنطقة: ' : 'Area: ') + sel(f, 'area'), (ar ? 'التاريخ: ' : 'Date: ') + (d.date || '-'), (ar ? 'الوقت: ' : 'Time: ') + sel(f, 'time'));
+      lines.push(d.msg || '');
+      const text = lines.filter(Boolean).join('\n');
+      if (btn.dataset.via === 'wa') window.open('https://wa.me/' + PH + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+      else location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent((isBook ? (ar ? 'حجز زيارة: ' : 'Visit booking: ') : (ar ? 'طلب عرض سعر: ' : 'Quote request: ')) + service) + '&body=' + encodeURIComponent(text);
+    });
+  };
+  const q = document.getElementById('quote'); if (q) wire(q, false);
+  const bk = document.getElementById('book');
+  if (bk) {
+    wire(bk, true);
+    const dt = bk.elements.date; if (dt) { const t = new Date(); dt.min = new Date(t - t.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+    const pre = new URLSearchParams(location.search).get('s'); if (pre && bk.elements.service) bk.elements.service.value = pre;
+  }
+
+  // Services page: search and filter by company
+  const sq = document.getElementById('svc-q');
+  if (sq) {
+    let flt = 'all';
+    const run = () => {
+      const t = sq.value.trim().toLowerCase(); let any = false;
+      document.querySelectorAll('.svc-group').forEach(g => {
+        let n = 0;
+        g.querySelectorAll('li').forEach(li => { const ok = (flt === 'all' || g.dataset.g === flt) && li.dataset.t.includes(t); li.hidden = !ok; if (ok) n++; });
+        g.hidden = !n; if (n) any = true;
+      });
+      document.getElementById('svc-none').hidden = any;
+    };
+    sq.addEventListener('input', run);
+    document.querySelector('.chips').addEventListener('click', e => {
+      const c = e.target.closest('.chip'); if (!c) return;
+      document.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === c)); flt = c.dataset.f; run();
+    });
+  }
 })();

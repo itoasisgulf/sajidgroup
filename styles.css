@@ -188,3 +188,21 @@ html[lang=en] .lang{font-family:Tajawal,sans-serif}
 .cards address{font-style:normal;color:var(--mut);line-height:1.6;margin-bottom:.35rem}
 .cards .link{display:inline-flex;align-items:center;gap:.3rem;font-size:.9rem}
 .contact-list a{color:inherit}
+
+/* services catalogue, booking, call button */
+.svc-tools{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;margin-bottom:2rem}
+.search{display:flex;align-items:center;gap:.6rem;flex:1 1 260px;max-width:380px;padding:0 .9rem;background:var(--card);border:1px solid var(--line);border-radius:999px}
+.search .ic{width:18px;height:18px;color:var(--gold)}.search input{flex:1;min-width:0;padding:.7rem 0;background:none;border:0;color:var(--txt);font:inherit;outline:none}
+.search:focus-within{border-color:var(--gold3)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{padding:.45rem .9rem;border:1px solid var(--line);border-radius:999px;background:rgba(24,24,27,.7);color:#d6d0c6;font:inherit;font-size:.88rem;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--gold3);color:var(--gold2)}.chip.on{background:var(--grad);color:#1a1405;border-color:transparent;font-weight:600}
+.svc-group{margin-bottom:2.4rem}.svc-group h2{display:flex;align-items:center;gap:.6rem}.svc-group h2 .ic{width:22px;height:22px;color:var(--gold)}
+.svc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1rem}
+.svc-cards li{display:flex;flex-direction:column;justify-content:space-between;gap:.7rem;padding:1rem 1.1rem;background:var(--card);border:1px solid var(--line);border-radius:12px;font-weight:500}
+.svc-cards[hidden],.svc-group[hidden],.svc-cards li[hidden]{display:none}
+.call-float{position:fixed;right:18px;bottom:84px;z-index:60;width:56px;height:56px;border-radius:50%;display:none;place-items:center;background:var(--grad);color:#1a1405;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.call-float .ic{width:26px;height:26px}
+[dir=rtl] .call-float{right:auto;left:18px}
+@media (max-width:1000px){.svc-cards{grid-template-columns:1fr 1fr}.call-float{display:grid}}
+@media (max-width:600px){.svc-cards{grid-template-columns:1fr}}
