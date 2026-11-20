@@ -406,3 +406,4 @@ body,.hdr,.co,.why,.form,.cards li,.svc li,.svc-cards li,.stats div,.faq details
 .topbar-in>*{white-space:nowrap}
 @media (max-width:860px){.topbar .tb-link{display:none}.topbar-in{height:34px}}
 @media (max-width:860px){.nav{position:absolute;top:100%;inset-inline:0;bottom:auto;max-height:calc(100vh - 120px);overflow:auto}}
+[data-theme=light] .co-media:after{background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 35%)}
