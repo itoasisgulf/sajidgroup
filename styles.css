@@ -477,3 +477,4 @@ body,.hdr,.co,.why,.form,.cards li,.svc li,.svc-cards li,.stats div,.faq details
 @media (max-width:600px){.hx-h{font-size:clamp(2.3rem,10vw,2.9rem)}.hx-btns a{flex:1 1 100%;justify-content:center}.hx-trust li{padding:0 .9rem}}
 @media (prefers-reduced-motion:reduce){.hx-h span,.hx-dot{animation:none}}
 [dir=rtl] .hx-h{font-size:clamp(2.2rem,4.6vw,4rem)}
+.dcard.p1{filter:brightness(.85)}.dcard.p2{filter:brightness(.95)}
