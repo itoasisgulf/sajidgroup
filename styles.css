@@ -512,3 +512,15 @@ body,.hdr,.co,.why,.form,.cards li,.svc li,.svc-cards li,.stats div,.faq details
 [dir=rtl] .hero-center .hx-big{font-size:clamp(2.7rem,5.6vw,5rem)}
 .hero2:has(.hero-center){min-height:0}
 @media (max-width:600px){.hero-center .hx-big{white-space:normal;font-size:clamp(2.6rem,12vw,3.4rem)}}
+/* compact centered banner so the quick request bar sits higher */
+.hero2:has(.hero-center){padding-top:clamp(34px,4.5vw,56px)}
+.hero-center{gap:1.4rem}
+.hero-center .hx-chip{font-size:.78rem;padding:.3rem .8rem}
+.hero-center .hx-name{margin:.8rem 0 .6rem}
+.hero-center .hx-of{margin-top:.35rem;font-size:clamp(.85rem,1.3vw,1.05rem)}
+.hero-center .hx-line{font-size:clamp(1.15rem,1.9vw,1.55rem);max-width:none;margin-bottom:.45rem}
+.hero-center .hx-lead{font-size:.98rem;line-height:1.55;max-width:46em}
+.hero-center .hx-trust{margin-top:1rem}
+.hero-center .hx-trust li{font-size:.84rem}.hero-center .hx-trust b{font-size:1.15rem}
+.hero-center .qbar{padding:clamp(18px,2.2vw,26px)}
+.hero-center .qbar .qopt span{padding:.62rem .75rem}
