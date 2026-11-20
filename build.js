@@ -488,7 +488,7 @@ ${faqSection(seo.faq)}<section class="sec alt"><div class="wrap"><h2 class="h3">
 
   const dir = ar ? path.join(OUT, 'ar') : OUT;
   fs.mkdirSync(dir, { recursive: true });
-  for (const p of pages) fs.writeFileSync(path.join(dir, p.file), page(p));
+  for (const p of pages) fs.writeFileSync(path.join(dir, p.file), page(p).replace(/href="(\.\.\/|ar\/)?index\.html"/g, (m, pre) => `href="${pre || './'}"`));
   return pages.filter(p => p.file !== '404.html').map(p => url(p.file));
 }
 
