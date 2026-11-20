@@ -407,3 +407,7 @@ body,.hdr,.co,.why,.form,.cards li,.svc li,.svc-cards li,.stats div,.faq details
 @media (max-width:860px){.topbar .tb-link{display:none}.topbar-in{height:34px}}
 @media (max-width:860px){.nav{position:absolute;top:100%;inset-inline:0;bottom:auto;max-height:calc(100vh - 120px);overflow:auto}}
 [data-theme=light] .co-media:after{background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 35%)}
+/* fix: give the script's long swashes room inside the gold fill so they are not cut */
+.brand-title .script{padding:.12em .3em .38em .04em;margin:-.12em -.3em -.3em -.04em;line-height:1.1}
+[dir=rtl] .brand-title .script{padding:.1em .04em .3em .3em;margin:-.1em -.04em -.22em -.3em}
+.brand-title .caps{position:relative}
