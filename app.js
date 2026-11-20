@@ -114,6 +114,29 @@ document.documentElement.classList.add('js');
   const qc = document.getElementById('qcard');
   if (qc) qc.addEventListener('change', e => { const r = e.target; if (r.name === 's' && r.dataset.wa) document.getElementById('q-quote').href = r.dataset.wa; });
 
+  // Hero company deck: front card plus two behind; shuffles until the visitor interacts
+  const deck = document.querySelector('[data-deck]');
+  if (deck) {
+    const cards = [...deck.querySelectorAll('.dcard')], dots = [...deck.querySelectorAll('[data-go]')];
+    let front = 0, auto = null;
+    const lay = () => {
+      cards.forEach((c, i) => {
+        const k = (i - front + cards.length) % cards.length;
+        c.classList.remove('p0', 'p1', 'p2');
+        if (k < 3) c.classList.add('p' + k);
+        c.setAttribute('aria-hidden', k === 0 ? 'false' : 'true');
+        c.querySelectorAll('a').forEach(a => { a.tabIndex = k === 0 ? 0 : -1; });
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-selected', i === front));
+    };
+    const go = i => { front = (i + cards.length) % cards.length; lay(); };
+    const halt = () => { clearInterval(auto); auto = null; };
+    cards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('p0')) { e.preventDefault(); halt(); go(i); } }));
+    dots.forEach(d => d.addEventListener('click', () => { halt(); go(+d.dataset.go); }));
+    lay();
+    if (!still) { auto = setInterval(() => go(front + 1), 4200); deck.addEventListener('pointerenter', halt, { once: true }); }
+  }
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); setTimeout(() => { t.style.transitionDelay = ''; }, 1100); if (t.matches('.stats')) t.querySelectorAll('b').forEach(countUp); io.unobserve(e.target); } }), { threshold: .12 });

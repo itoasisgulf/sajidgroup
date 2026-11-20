@@ -328,15 +328,25 @@ ${body}
       <p class="lead reveal">${T('Six specialist companies, one trusted group in Dubai. Interiors, real estate, pest control, advertising, corporate services and IT, with one number to call.', 'ست شركات متخصصة ومجموعة واحدة موثوقة في دبي. الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات، برقم واحد للتواصل.')}</p>
       <div class="hero-trust reveal"><span>${ic('check', 'ic xs')}${T('Separately licensed companies', 'شركات مرخصة بشكل مستقل')}</span><span>${ic('check', 'ic xs')}${T('Authority approved', 'معتمدون من الجهات الحكومية')}</span><span>${ic('check', 'ic xs')}${T('Free quotes', 'عروض أسعار مجانية')}</span></div>
     </div>
-    <form class="qcard reveal" id="qcard" action="booking.html" method="get">
+    <div class="deck reveal" data-deck aria-roledescription="carousel" aria-label="${x(S.ourCos)}">
+      ${D.map((d, i) => `<article class="dcard" data-i="${i}" aria-label="${x(d.name)}">
+        <div class="dc-media">${d.logo ? `<div class="dc-logo"><img src="${img}itoasis.png" alt="" loading="lazy" width="260" height="142"></div>` : `<img src="${img}${d.img}" alt="" loading="${i < 3 ? 'eager' : 'lazy'}" width="1200" height="750">`}</div>
+        <div class="dc-body"><p class="dc-k">${x(d.short)}</p><h3><a href="${d.slug}.html">${x(d.name)}</a></h3>
+        <div class="dc-btns"><a class="dc-q" href="${quoteMsg(d)}" target="_blank" rel="noopener">${T('Quote', 'عرض سعر')}</a><a class="dc-b" href="booking.html?s=${d.slug}.0">${T('Book', 'احجز')}</a></div></div>
+      </article>`).join('')}
+      <div class="deck-dots" role="tablist" aria-label="${x(S.ourCos)}">${D.map((d, i) => `<button type="button" role="tab" aria-label="${x(d.short)}" data-go="${i}"${i === 0 ? ' aria-selected="true"' : ''}></button>`).join('')}</div>
+    </div>
+  </div>
+</section>
+<section class="qwrap"><div class="wrap">
+    <form class="qcard qbar reveal" id="qcard" action="booking.html" method="get">
       <p class="qcard-k">${T('Quick request', 'طلب سريع')}</p>
       <h2 class="qcard-h">${T('What do you need today?', 'ما الذي تحتاجه اليوم؟')}</h2>
       <div class="qpick" role="radiogroup" aria-label="${T('Choose a company', 'اختر الشركة')}">${D.map((d, i) => `<label class="qopt"><input type="radio" name="s" value="${d.slug}.0" data-wa="${quoteMsg(d)}"${i === 0 ? ' checked' : ''}><span>${ic(d.icon)}${x(d.short)}</span></label>`).join('')}</div>
       <div class="qcard-btns"><a class="btn btn-gold" id="q-quote" href="${quoteMsg(D[0])}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a><button class="btn btn-line" type="submit">${ic('cal')}${x(S.book)}</button></div>
       <a class="qcard-call" href="${tel(C.phones[0])}">${ic('phone', 'ic xs')}${T('Or call', 'أو اتصل')} ${num(C.phones[0])}</a>
     </form>
-  </div>
-</section>
+</div></section>
 ${(() => { const items = D.flatMap(d => d.services.slice(0, 3)).map(([e, a2]) => `<span>${ar ? a2 : e}</span>`).join(''); return `<div class="ticker" role="region" aria-label="${T('Our services', 'خدماتنا')}"><div class="ticker-track"><div class="ticker-set">${items}</div><div class="ticker-set" aria-hidden="true">${items}</div></div></div>`; })()}
 <section class="sec show" id="companies"><div class="wrap">
   <div class="sec-head reveal"><p class="eyebrow">${x(S.ourCos)}</p><h2>${T('Six companies. One trusted group.', 'ست شركات. مجموعة واحدة موثوقة.')}</h2><p class="muted">${T('Pick a company to see what it does, then get a quote or book a visit in one tap.', 'اختر شركة لترى ما تقدمه، ثم اطلب عرض سعر أو احجز زيارة بنقرة واحدة.')}</p></div>

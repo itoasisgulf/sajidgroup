@@ -411,3 +411,46 @@ body,.hdr,.co,.why,.form,.cards li,.svc li,.svc-cards li,.stats div,.faq details
 .brand-title .script{padding:.12em .3em .38em .04em;margin:-.12em -.3em -.3em -.04em;line-height:1.1}
 [dir=rtl] .brand-title .script{padding:.1em .04em .3em .3em;margin:-.1em -.04em -.22em -.3em}
 .brand-title .caps{position:relative}
+
+/* ===== hero card deck (company cards, glass style) ===== */
+.deck{position:relative;height:500px;max-width:560px;width:100%;justify-self:end;perspective:1400px}
+.dcard{position:absolute;top:0;left:50%;width:min(300px,78%);border-radius:24px;overflow:hidden;background:rgba(20,20,24,.72);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);box-shadow:0 40px 80px rgba(0,0,0,.6);transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .5s,filter .5s;opacity:0;pointer-events:none;transform:translate(-50%,40px) scale(.85)}
+.dc-media{height:170px;background:#000}.dc-media>img{width:100%;height:100%;object-fit:cover}
+.dc-logo{display:grid;place-items:center;height:100%;background:radial-gradient(circle at 50% 40%,#2a2414,#0b0b0c)}.dc-logo img{max-height:90px;width:auto}
+.dc-body{padding:16px 18px 18px}
+.dc-k{font:600 .72rem Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e3b549}
+.dcard h3{font:700 1.12rem/1.3 Inter,sans-serif;letter-spacing:-.01em;margin:4px 0 14px;color:#f3f0ea}
+.dcard h3 a:hover{color:#f3d77a}
+.dc-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dc-btns a{text-align:center;padding:10px;border-radius:11px;font:600 .85rem Inter,sans-serif}
+.dc-q{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#f3f0ea}.dc-q:hover{background:rgba(255,255,255,.12)}
+.dc-b{background:linear-gradient(135deg,#f6d77a,#c9952c);color:#141006;box-shadow:0 8px 24px rgba(227,181,73,.3)}
+/* positions: 0 front, 1 back-left, 2 back-right */
+.dcard.p0{opacity:1;pointer-events:auto;z-index:3;transform:translate(-30%,170px) rotate(-2deg)}
+.dcard.p1{opacity:1;pointer-events:auto;z-index:1;cursor:pointer;transform:translate(-95%,40px) rotate(-7deg) scale(.94);filter:brightness(.75)}
+.dcard.p2{opacity:1;pointer-events:auto;z-index:2;cursor:pointer;transform:translate(-20%,0) rotate(4deg) scale(.97);filter:brightness(.88)}
+.dcard.p1 .dc-btns,.dcard.p2 .dc-btns{pointer-events:none}
+.dcard.p1:hover,.dcard.p2:hover{filter:brightness(1)}
+.deck-dots{position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);display:flex;gap:8px}
+.deck-dots button{width:8px;height:8px;border-radius:99px;border:0;background:rgba(255,255,255,.25);cursor:pointer;transition:width .3s,background .3s;padding:0}
+.deck-dots button[aria-selected=true]{width:26px;background:#e3b549}
+[dir=rtl] .dcard{left:auto;right:50%}
+[dir=rtl] .dcard.p0{transform:translate(30%,170px) rotate(2deg)}[dir=rtl] .dcard.p1{transform:translate(95%,40px) rotate(7deg) scale(.94)}[dir=rtl] .dcard.p2{transform:translate(20%,0) rotate(-4deg) scale(.97)}
+/* quick request as a wide bar under the hero */
+.qwrap{position:relative;z-index:5;margin-top:-70px;padding-bottom:40px}
+.qbar{display:grid;grid-template-columns:220px 1fr 260px;gap:1.2rem 1.6rem;align-items:center;max-width:none}
+.qbar .qcard-k{grid-column:1}.qbar .qcard-h{grid-column:1;margin:0;font-size:1.45rem}
+.qbar .qpick{grid-column:2;grid-row:1/span 2;grid-template-columns:repeat(3,1fr)}
+.qbar .qcard-btns{grid-column:3;grid-row:1/span 2;grid-template-columns:1fr;margin:0}
+.qbar .qcard-call{grid-column:1/-1;margin-top:-.4rem}
+@media (max-width:1100px){.qbar{grid-template-columns:1fr}.qbar>*{grid-column:1!important;grid-row:auto!important}.qbar .qpick{grid-template-columns:repeat(3,1fr)}.qbar .qcard-btns{grid-template-columns:1.2fr 1fr}}
+@media (max-width:1000px){.deck{justify-self:center;height:470px;margin-top:10px}.qwrap{margin-top:-40px}}
+@media (max-width:600px){.deck{height:430px}.dcard{width:min(260px,74%)}.dc-media{height:140px}.dcard.p0{transform:translate(-36%,150px) rotate(-2deg)}.dcard.p1{transform:translate(-88%,30px) rotate(-7deg) scale(.92)}.dcard.p2{transform:translate(-18%,0) rotate(4deg) scale(.95)}.qbar .qpick{grid-template-columns:1fr 1fr}.qbar .qcard-btns{grid-template-columns:1fr}.hero2{padding-bottom:120px}}
+@media (prefers-reduced-motion:reduce){.dcard{transition:none}}
+[data-theme=light] .qbar{--bg:#0b0b0c;--card:#18181b;--line:#2a2724;--txt:#ece8e1;--txt2:#cfc9bf;--mut:#a9a39a;--gold:#d4af37;--gold2:#f3d77a;--gold3:#a87f1f;--glass:rgba(24,24,27,.7);color:var(--txt)}
+/* RTL deck: same anchor, mirrored positions */
+[dir=rtl] .dcard{left:50%;right:auto}
+[dir=rtl] .dcard.p0{transform:translate(-70%,170px) rotate(2deg)}
+[dir=rtl] .dcard.p1{transform:translate(-5%,40px) rotate(7deg) scale(.94)}
+[dir=rtl] .dcard.p2{transform:translate(-80%,0) rotate(-4deg) scale(.97)}
+@media (max-width:600px){[dir=rtl] .dcard.p0{transform:translate(-64%,150px) rotate(2deg)}[dir=rtl] .dcard.p1{transform:translate(-12%,30px) rotate(7deg) scale(.92)}[dir=rtl] .dcard.p2{transform:translate(-82%,0) rotate(-4deg) scale(.95)}}
