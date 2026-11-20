@@ -41,6 +41,9 @@ const I = {
   phone: '<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
   ig: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  up: '<path d="M12 19V5M5 12l7-7 7 7"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   pin: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
@@ -222,7 +225,8 @@ ${noindex ? '' : `<link rel="canonical" href="${url(file)}">
 <meta property="og:image" content="${SITE}/assets/img/sg-logo-og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="1200"><meta property="og:image:alt" content="${x(S.full)} logo"><meta property="og:url" content="${url(file)}"><meta property="og:locale" content="${ar ? 'ar_AE' : 'en_AE'}"><meta property="og:locale:alternate" content="${ar ? 'en_AE' : 'ar_AE'}">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}/assets/img/sg-logo-og.jpg">
 <meta name="geo.region" content="AE-DU"><meta name="geo.placename" content="Bur Dubai, Dubai"><meta name="geo.position" content="${C.geo.lat};${C.geo.lng}"><meta name="ICBM" content="${C.geo.lat}, ${C.geo.lng}">
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#0b0b0c"><meta name="color-scheme" content="dark light">
+<script src="${base}assets/theme.js"></script>
 <link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png">
 ${fonts}${preload}
 <link rel="stylesheet" href="${base}assets/fonts-${ar ? 'ar' : 'en'}.css">
@@ -231,9 +235,11 @@ ${ldTag}
 </head>
 <body>
 <a class="skip" href="#main">${x(S.skip)}</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="hdr">
   <div class="wrap hdr-in">
     ${brand()}
+    <div class="hdr-tools"><button class="theme-t" type="button" aria-label="${ar ? 'تبديل الوضع الفاتح والداكن' : 'Switch light or dark mode'}" aria-pressed="false">${ic('moon', 'ic i-moon')}${ic('sun', 'ic i-sun')}</button></div>
     <button class="burger" aria-label="${x(S.menu)}" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     <nav id="nav" class="nav">${nav}<a class="lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a><a class="btn btn-gold sm" href="booking.html">${ic('cal')}${x(S.book)}</a></nav>
   </div>
@@ -251,12 +257,13 @@ ${body}
       <li>${ic('ig')}<a href="${C.instagram}" target="_blank" rel="noopener">@sajiid.group</a></li>
       <li>${ic('pin')}<a href="${C.mapLink}" target="_blank" rel="noopener">${addrLines(', ')}</a></li>
       <li>${ic('cal')}<a href="booking.html">${x(S.book)}</a></li>
-      <li>${ic('clock')}<span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></li></ul></div>
+      <li>${ic('clock')}<span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}<br><span class="open-badge" data-open hidden></span></span></li></ul></div>
   </div>
   <div class="wrap ftr-bot"><span>&copy; <span id="yr">2026</span> ${x(S.full)}. ${x(S.rights)}</span><a href="${C.itoasis}" target="_blank" rel="noopener">${x(S.itPartner)} ${ic('ext', 'ic xs')}</a></div>
 </footer>
 <a class="call-float" href="${tel(C.phones[0])}" aria-label="${x(S.call)} ${C.phones[0]}">${ic('phone')}</a>
 <a class="wa-float" href="${W()}" target="_blank" rel="noopener" aria-label="${x(S.whatsapp)}">${ic('wa')}</a>
+<button class="to-top" type="button" aria-label="${ar ? 'العودة إلى الأعلى' : 'Back to top'}">${ic('up')}</button>
 <script src="${base}app.js" defer></script>
 </body>
 </html>
@@ -302,6 +309,7 @@ ${body}
     <ul class="rings reveal">${D.map(d => `<li><a href="${d.slug}.html"><span class="ring">${ic(d.icon)}</span><span class="rl">${x(d.short)}</span></a></li>`).join('')}</ul>
   </div>
 </section>
+${(() => { const items = D.flatMap(d => d.services.slice(0, 3)).map(([e, a2]) => `<span>${ar ? a2 : e}</span>`).join(''); return `<div class="ticker" role="region" aria-label="${T('Our services', 'خدماتنا')}"><div class="ticker-track"><div class="ticker-set">${items}</div><div class="ticker-set" aria-hidden="true">${items}</div></div></div>`; })()}
 <section class="sec"><div class="wrap split">
   <div class="reveal"><p class="eyebrow">${T('About the group', 'عن المجموعة')}</p><h2>${T('A diversified group serving Dubai and the UAE', 'مجموعة متنوعة تخدم دبي والإمارات')}</h2>
   <p>${T('Sajid Group of Companies serves residential, commercial and corporate clients across Dubai and the UAE. Each company in the group holds its own trade licence and name. Our mission is simple: deliver dependable services that help clients improve properties, grow businesses and maintain safe, comfortable spaces.', 'تخدم مجموعة ساجد للشركات العملاء من الأفراد والشركات والمؤسسات في دبي وجميع أنحاء الإمارات. ولكل شركة في المجموعة رخصتها التجارية واسمها الخاص. مهمتنا بسيطة: تقديم خدمات موثوقة تساعد عملاءنا على تحسين عقاراتهم وتنمية أعمالهم والحفاظ على أماكن آمنة ومريحة.')}</p>
@@ -370,7 +378,7 @@ ${faqSection(seo.faq)}<section class="sec alt"><div class="wrap"><h2 class="h3">
     <li>${ic('mail', 'ic lg')}<div><b>${T('Email', 'البريد الإلكتروني')}</b><a href="mailto:${C.email}">${C.email}</a></div></li>
     <li>${ic('ig', 'ic lg')}<div><b>${T('Instagram', 'إنستغرام')}</b><a href="${C.instagram}" target="_blank" rel="noopener">@sajiid.group</a></div></li>
     <li>${ic('pin', 'ic lg')}<div><b>${T('Head office', 'المكتب الرئيسي')}</b><address>${x(S.full)}<br>${addrLines('<br>')}</address><a class="link" href="${C.mapLink}" target="_blank" rel="noopener">${T('Get directions on Google Maps', 'الاتجاهات على خرائط جوجل')} ${ic('ext', 'ic xs')}</a></div></li>
-    <li>${ic('clock', 'ic lg')}<div><b>${T('Office hours', 'ساعات العمل')}</b><span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></div></li>
+    <li>${ic('clock', 'ic lg')}<div><b>${T('Office hours', 'ساعات العمل')}</b><span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span><span class="open-badge" data-open hidden></span></div></li>
   </ul>
   <iframe class="map" title="${T('Map of the Sajid Group office, Al Abbas Building, Bur Dubai', 'خريطة مكتب مجموعة ساجد، مبنى العباس، بر دبي')}" src="${C.map}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   <form class="form reveal" id="quote" novalidate>
@@ -419,7 +427,7 @@ ${faqSection(seo.faq)}<section class="sec alt"><div class="wrap"><h2 class="h3">
   </form>
   <div class="reveal"><ul class="cards">
     <li>${ic('phone', 'ic lg')}<div><b>${T('Prefer to talk?', 'تفضل الاتصال؟')}</b><a href="${tel(C.phones[0])}">${num(C.phones[0])}</a> &middot; <a href="${W()}" target="_blank" rel="noopener">${x(S.whatsapp)}</a></div></li>
-    <li>${ic('clock', 'ic lg')}<div><b>${T('Office hours', 'ساعات العمل')}</b><span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span></div></li>
+    <li>${ic('clock', 'ic lg')}<div><b>${T('Office hours', 'ساعات العمل')}</b><span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}</span><span class="open-badge" data-open hidden></span></div></li>
     <li>${ic('pin', 'ic lg')}<div><b>${T('Head office', 'المكتب الرئيسي')}</b><address>${addrLines('<br>')}</address></div></li>
   </ul></div>
 </div></section>` });

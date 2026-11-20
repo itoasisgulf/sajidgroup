@@ -4,9 +4,81 @@ document.documentElement.classList.add('js');
   if (b) b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o); });
   const y = document.getElementById('yr'); if (y) y.textContent = new Date().getFullYear();
 
+  const root = document.documentElement, ar0 = root.lang === 'ar';
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Light / dark switch (dark is the default; the choice is remembered on this device)
+  const tt = document.querySelector('.theme-t');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const setTheme = t => {
+    root.setAttribute('data-theme', t);
+    if (tt) tt.setAttribute('aria-pressed', t === 'light');
+    if (meta) meta.content = t === 'light' ? '#faf7f0' : '#0b0b0c';
+  };
+  setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  if (tt) tt.addEventListener('click', () => {
+    const t = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    setTheme(t); try { localStorage.setItem('sg-theme', t); } catch (e) {}
+  });
+
+  // Header shrink, reading progress, back to top, hero skyline drift
+  const hdr = document.querySelector('.hdr'), bar = document.querySelector('.progress');
+  const top = document.querySelector('.to-top'), sky = document.querySelector('.hero-sky');
+  let ticking = false;
+  const onScroll = () => {
+    const y = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
+    if (hdr) hdr.classList.toggle('scrolled', y > 20);
+    if (bar) bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
+    if (top) top.classList.toggle('show', y > 600);
+    if (sky && !still && y < 900) sky.style.transform = 'translateY(' + (y * 0.12).toFixed(1) + 'px)' + (ar0 ? ' scaleX(-1)' : '');
+    ticking = false;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+  if (top) top.addEventListener('click', () => scrollTo({ top: 0, behavior: still ? 'auto' : 'smooth' }));
+
+  // Cursor spotlight on cards
+  document.addEventListener('pointermove', e => {
+    const c = e.target.closest && e.target.closest('.co,.why,.stats div,.svc-cards li,.cards li'); if (!c) return;
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }, { passive: true });
+
+  // Count-up for the numbers on the home page
+  const countUp = el => {
+    if (el.dataset.counted) return; el.dataset.counted = 1;
+    const m = el.textContent.trim().match(/^(\d+)(.*)$/); if (!m || still) return;
+    const end = +m[1], suf = m[2], t0 = performance.now(), dur = 1200;
+    const step = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(step); };
+    el.textContent = '0' + suf; requestAnimationFrame(step);
+  };
+
+  // Open now / closed badge (Dubai time, Monday to Saturday 9 AM to 8 PM)
+  const badges = document.querySelectorAll('[data-open]');
+  if (badges.length) {
+    const upd = () => {
+      let d, h;
+      try {
+        const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dubai', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date());
+        d = p.find(x => x.type === 'weekday').value; h = +p.find(x => x.type === 'hour').value % 24;
+      } catch (e) { return; }
+      const open = d !== 'Sun' && h >= 9 && h < 20;
+      const txt = open ? (ar0 ? 'مفتوح الآن · يغلق 8:00 مساءً' : 'Open now · closes 8:00 PM')
+        : (ar0 ? 'مغلق الآن · ' + (d === 'Sat' && h >= 20 ? 'يفتح الاثنين 9:00 صباحاً' : (d === 'Sun' ? 'يفتح غداً 9:00 صباحاً' : (h < 9 ? 'يفتح 9:00 صباحاً' : 'يفتح غداً 9:00 صباحاً')))
+               : 'Closed now · opens ' + (d === 'Sat' && h >= 20 ? 'Monday 9:00 AM' : (d === 'Sun' ? 'tomorrow 9:00 AM' : (h < 9 ? 'today 9:00 AM' : 'tomorrow 9:00 AM'))));
+      badges.forEach(b => { b.textContent = txt; b.classList.toggle('is-open', open); b.classList.toggle('is-closed', !open); b.hidden = false; });
+    };
+    upd(); setInterval(upd, 60000);
+  }
+
+  // Stagger: items revealed together come in one after another
+  document.querySelectorAll('.grid3,.grid4,.stats,.svc-cards,.faq,.cards').forEach(g => {
+    [...g.children].forEach((c, i) => { if (c.classList.contains('reveal')) c.style.transitionDelay = Math.min(i, 8) * 70 + 'ms'; });
+  });
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); setTimeout(() => { t.style.transitionDelay = ''; }, 1100); if (t.matches('.stats')) t.querySelectorAll('b').forEach(countUp); io.unobserve(e.target); } }), { threshold: .12 });
     els.forEach(el => io.observe(el));
   } else els.forEach(el => el.classList.add('in'));
 
