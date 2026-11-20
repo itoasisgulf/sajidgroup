@@ -236,12 +236,23 @@ ${ldTag}
 <body>
 <a class="skip" href="#main">${x(S.skip)}</a>
 <div class="progress" aria-hidden="true"></div>
+<div class="topbar"><div class="wrap topbar-in">
+  <span class="open-badge" data-open hidden></span>
+  <a class="tb-link" href="${tel(C.phones[0])}">${ic('phone', 'ic xs')}${num(C.phones[0])}</a>
+  <a class="tb-link hide-sm" href="mailto:${C.email}">${ic('mail', 'ic xs')}${C.email}</a>
+  <a class="tb-link hide-sm" href="${C.mapLink}" target="_blank" rel="noopener">${ic('pin', 'ic xs')}${x(O.area)}, ${x(O.city)}</a>
+  <a class="lang tb-lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a>
+</div></div>
 <header class="hdr">
   <div class="wrap hdr-in">
     ${brand()}
-    <div class="hdr-tools"><button class="theme-t" type="button" aria-label="${ar ? 'تبديل الوضع الفاتح والداكن' : 'Switch light or dark mode'}" aria-pressed="false">${ic('moon', 'ic i-moon')}${ic('sun', 'ic i-sun')}</button></div>
-    <button class="burger" aria-label="${x(S.menu)}" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
-    <nav id="nav" class="nav">${nav}<a class="lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a><a class="btn btn-gold sm" href="booking.html">${ic('cal')}${x(S.book)}</a></nav>
+    <nav id="nav" class="nav">${nav}<a class="lang nav-lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a></nav>
+    <div class="hdr-tools">
+      <a class="btn btn-line sm hdr-quote" href="contact.html#quote">${ic('doc')}${ar ? 'عرض سعر' : 'Get a quote'}</a>
+      <a class="btn btn-gold sm hdr-book" href="booking.html">${ic('cal')}${x(S.book)}</a>
+      <button class="theme-t" type="button" aria-label="${ar ? 'تبديل الوضع الفاتح والداكن' : 'Switch light or dark mode'}" aria-pressed="false">${ic('moon', 'ic i-moon')}${ic('sun', 'ic i-sun')}</button>
+      <button class="burger" aria-label="${x(S.menu)}" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </header>
 <main id="main">
@@ -261,7 +272,12 @@ ${body}
   </div>
   <div class="wrap ftr-bot"><span>&copy; <span id="yr">2026</span> ${x(S.full)}. ${x(S.rights)}</span><a href="${C.itoasis}" target="_blank" rel="noopener">${x(S.itPartner)} ${ic('ext', 'ic xs')}</a></div>
 </footer>
-<a class="call-float" href="${tel(C.phones[0])}" aria-label="${x(S.call)} ${C.phones[0]}">${ic('phone')}</a>
+<nav class="dock" aria-label="${ar ? 'إجراءات سريعة' : 'Quick actions'}">
+  <a href="${tel(C.phones[0])}">${ic('phone')}<span>${x(S.call)}</span></a>
+  <a href="${W()}" target="_blank" rel="noopener">${ic('wa')}<span>${x(S.whatsapp)}</span></a>
+  <a href="contact.html#quote">${ic('doc')}<span>${ar ? 'عرض سعر' : 'Quote'}</span></a>
+  <a class="dock-main" href="booking.html">${ic('cal')}<span>${ar ? 'احجز' : 'Book'}</span></a>
+</nav>
 <a class="wa-float" href="${W()}" target="_blank" rel="noopener" aria-label="${x(S.whatsapp)}">${ic('wa')}</a>
 <button class="to-top" type="button" aria-label="${ar ? 'العودة إلى الأعلى' : 'Back to top'}">${ic('up')}</button>
 <script src="${base}app.js" defer></script>
@@ -271,10 +287,14 @@ ${body}
   }
 
   const itLogo = cls => `<div class="co-logo${cls || ''}"><img src="${img}itoasis.png" alt="${ar ? 'شعار آي تي أويسس' : 'IT Oasis UAE logo'}" loading="lazy" width="260" height="142"></div>`;
-  const card = d => `<article class="co reveal">
-  <div class="co-media">${d.logo ? itLogo() : `<img src="${img}${d.img}" alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" loading="lazy" width="1200" height="750">`}<span class="co-ic">${ic(d.icon)}</span></div>
-  <div class="co-body"><p class="eyebrow">${x(d.short)}</p><h3>${x(d.name)}</h3><p>${x(d.tag)}.</p>
-  <div class="co-actions"><a class="link" href="${d.slug}.html">${x(S.view)} ${ic('arrow', 'ic xs')}</a>${d.ext ? `<a class="btn btn-gold sm" href="${d.ext}" target="_blank" rel="noopener">${x(S.visitIt)} ${ic('ext', 'ic xs')}</a>` : ''}</div></div>
+  const quoteMsg = d => W(T(`Hello Sajid Group, I would like a quote from ${d.name.en}.`, `مرحباً مجموعة ساجد، أود الحصول على عرض سعر من ${d.name.ar}.`));
+  const media = (d, cls = '') => d.logo ? itLogo(cls) : `<img src="${img}${d.img}" alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" loading="lazy" width="1200" height="750">`;
+  const card = (d, i = 0) => `<article class="co reveal${i === 0 ? ' co-wide' : ''}">
+  <a class="co-media" href="${d.slug}.html" tabindex="-1" aria-hidden="true">${media(d)}<span class="co-num">0${D.indexOf(d) + 1}</span></a>
+  <div class="co-body"><p class="eyebrow">${ic(d.icon, 'ic xs')}${x(d.short)}</p><h3><a href="${d.slug}.html">${x(d.name)}</a></h3><p>${x(d.tag)}.</p>
+  <ul class="co-tags">${d.services.slice(0, 3).map(sv => `<li>${x(sv)}</li>`).join('')}</ul>
+  <div class="co-actions"><a class="btn btn-gold sm" href="${quoteMsg(d)}" target="_blank" rel="noopener">${ic('wa')}${T('Quote', 'عرض سعر')}</a><a class="btn btn-line sm" href="booking.html?s=${d.slug}.0">${ic('cal')}${T('Book', 'احجز')}</a><a class="link" href="${d.slug}.html">${x(S.view)} ${ic('arrow', 'ic xs')}</a></div>
+  ${d.ext ? `<a class="co-ext" href="${d.ext}" target="_blank" rel="noopener">${x(S.visitItSite)} ${ic('ext', 'ic xs')}</a>` : ''}</div>
 </article>`;
   const cta = () => `<section class="cta"><div class="wrap cta-in reveal"><div><h2>${x(S.ctaH)}</h2><p>${x(S.ctaP)}</p></div><div class="btns"><a class="btn btn-gold" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${x(S.waUs)}</a><a class="btn btn-line" href="booking.html">${ic('cal')}${x(S.book)}</a><a class="btn btn-line" href="${tel(C.phones[0])}">${ic('phone')}${x(S.call)} ${num(C.phones[0])}</a></div></div></section>`;
   const head = (eyebrow, h1, p, nav = '') => `<section class="phead"><div class="wrap">${nav}<p class="eyebrow">${eyebrow}</p><h1>${h1}</h1>${p ? `<p class="lead">${p}</p>` : ''}</div></section>`;
@@ -299,32 +319,59 @@ ${body}
     preload: `<link rel="preload" href="${img}hero-skyline.webp" as="image" type="image/webp" fetchpriority="high">${ar ? '' : `<link rel="preload" href="assets/fonts/GreatVibes-400-latin.woff2" as="font" type="font/woff2" crossorigin>`}`,
     title: T('Sajid Group of Companies | Business Services in Dubai, UAE', 'مجموعة ساجد للشركات | شريكك الموثوق للأعمال في دبي'),
     desc: T('Sajid Group, Bur Dubai: interior fit-out, technical maintenance, real estate, pest control, signage, business setup, PRO and IT services in one group.','مجموعة ساجد للشركات في دبي: الديكور والخدمات الفنية، العقارات، مكافحة الحشرات، الإعلان، خدمات الشركات والمندوب، وحلول تقنية المعلومات تحت مجموعة واحدة موثوقة.'),
-    body: `<section class="hero">
+    body: `<section class="hero hero2">
   <div class="hero-bg" aria-hidden="true"><img class="hero-sky" src="${img}hero-skyline.webp" alt="" width="1058" height="508" fetchpriority="high"></div>
-  <div class="wrap hero-in">
-    <h1 class="brand-title reveal"><span class="script">${T('Sajid Group', 'مجموعة ساجد')}</span><span class="caps">${T('of Companies', 'للشركات')}</span></h1>
-    <p class="tagline reveal">${x(S.tagline).replace(/ \| /g, '<i></i>')}</p>
-    <p class="lead reveal">${T('Your trusted business partner in Dubai, UAE. Six specialist companies, one trusted group: interiors, real estate, pest control, advertising, corporate services and IT.', 'شريكك الموثوق للأعمال في دبي، الإمارات. ست شركات متخصصة ومجموعة واحدة موثوقة: الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات.')}</p>
-    <div class="btns reveal"><a class="btn btn-gold" href="companies.html">${T('Explore our companies', 'تعرّف على شركاتنا')} ${ic('arrow', 'ic xs')}</a><a class="btn btn-line" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a><a class="btn btn-line" href="booking.html">${ic('cal')}${x(S.book)}</a></div>
-    <ul class="rings reveal">${D.map(d => `<li><a href="${d.slug}.html"><span class="ring">${ic(d.icon)}</span><span class="rl">${x(d.short)}</span></a></li>`).join('')}</ul>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1 class="brand-title reveal"><span class="script">${T('Sajid Group', 'مجموعة ساجد')}</span><span class="caps">${T('of Companies', 'للشركات')}</span></h1>
+      <p class="tagline reveal">${x(S.tagline).replace(/ \| /g, '<i></i>')}</p>
+      <p class="lead reveal">${T('Six specialist companies, one trusted group in Dubai. Interiors, real estate, pest control, advertising, corporate services and IT, with one number to call.', 'ست شركات متخصصة ومجموعة واحدة موثوقة في دبي. الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات، برقم واحد للتواصل.')}</p>
+      <div class="hero-trust reveal"><span>${ic('check', 'ic xs')}${T('Separately licensed companies', 'شركات مرخصة بشكل مستقل')}</span><span>${ic('check', 'ic xs')}${T('Authority approved', 'معتمدون من الجهات الحكومية')}</span><span>${ic('check', 'ic xs')}${T('Free quotes', 'عروض أسعار مجانية')}</span></div>
+    </div>
+    <form class="qcard reveal" id="qcard" action="booking.html" method="get">
+      <p class="qcard-k">${T('Quick request', 'طلب سريع')}</p>
+      <h2 class="qcard-h">${T('What do you need today?', 'ما الذي تحتاجه اليوم؟')}</h2>
+      <div class="qpick" role="radiogroup" aria-label="${T('Choose a company', 'اختر الشركة')}">${D.map((d, i) => `<label class="qopt"><input type="radio" name="s" value="${d.slug}.0" data-wa="${quoteMsg(d)}"${i === 0 ? ' checked' : ''}><span>${ic(d.icon)}${x(d.short)}</span></label>`).join('')}</div>
+      <div class="qcard-btns"><a class="btn btn-gold" id="q-quote" href="${quoteMsg(D[0])}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a><button class="btn btn-line" type="submit">${ic('cal')}${x(S.book)}</button></div>
+      <a class="qcard-call" href="${tel(C.phones[0])}">${ic('phone', 'ic xs')}${T('Or call', 'أو اتصل')} ${num(C.phones[0])}</a>
+    </form>
   </div>
 </section>
 ${(() => { const items = D.flatMap(d => d.services.slice(0, 3)).map(([e, a2]) => `<span>${ar ? a2 : e}</span>`).join(''); return `<div class="ticker" role="region" aria-label="${T('Our services', 'خدماتنا')}"><div class="ticker-track"><div class="ticker-set">${items}</div><div class="ticker-set" aria-hidden="true">${items}</div></div></div>`; })()}
+<section class="sec show" id="companies"><div class="wrap">
+  <div class="sec-head reveal"><p class="eyebrow">${x(S.ourCos)}</p><h2>${T('Six companies. One trusted group.', 'ست شركات. مجموعة واحدة موثوقة.')}</h2><p class="muted">${T('Pick a company to see what it does, then get a quote or book a visit in one tap.', 'اختر شركة لترى ما تقدمه، ثم اطلب عرض سعر أو احجز زيارة بنقرة واحدة.')}</p></div>
+  <div class="show-in reveal">
+    <div class="show-tabs" role="tablist" aria-label="${x(S.ourCos)}">${D.map((d, i) => `<button class="show-tab" role="tab" id="st-${d.slug}" aria-controls="sp-${d.slug}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"><span class="st-ic">${ic(d.icon)}</span><span class="st-txt"><b>${x(d.short)}</b><small>${x(d.tag)}</small></span><i class="st-bar"></i></button>`).join('')}</div>
+    <div class="show-panels">${D.map((d, i) => `<article class="show-panel" role="tabpanel" id="sp-${d.slug}" aria-labelledby="st-${d.slug}"${i ? ' hidden' : ''}>
+      <div class="sp-media">${media(d, ' big')}</div>
+      <div class="sp-body"><p class="eyebrow">0${i + 1} / 0${D.length}</p><h3>${x(d.name)}</h3><p class="muted">${x(d.intro)}</p>
+      <ul class="sp-svc">${d.services.slice(0, 6).map((sv, j) => `<li><a href="booking.html?s=${d.slug}.${j}">${ic('check', 'ic xs')}${x(sv)}</a></li>`).join('')}</ul>
+      <div class="btns"><a class="btn btn-gold" href="${quoteMsg(d)}" target="_blank" rel="noopener">${ic('wa')}${T('Get a quote', 'اطلب عرض سعر')}</a><a class="btn btn-line" href="booking.html?s=${d.slug}.0">${ic('cal')}${x(S.book)}</a><a class="link" href="${d.slug}.html">${T('Explore company', 'تعرّف على الشركة')} ${ic('arrow', 'ic xs')}</a></div>
+      ${d.ext ? `<a class="co-ext" href="${d.ext}" target="_blank" rel="noopener">${x(S.visitItSite)} ${ic('ext', 'ic xs')}</a>` : ''}</div>
+    </article>`).join('')}</div>
+  </div>
+</div></section>
+<section class="sec alt steps-sec"><div class="wrap">
+  <div class="sec-head reveal"><p class="eyebrow">${T('How it works', 'كيف نعمل')}</p><h2>${T('From request to done in three steps', 'من الطلب إلى الإنجاز في ثلاث خطوات')}</h2></div>
+  <ol class="steps">
+    <li class="reveal"><span class="step-n">1</span>${ic('wa', 'ic lg')}<h3>${T('Tell us what you need', 'أخبرنا بما تحتاجه')}</h3><p>${T('Call, WhatsApp or use the quick request. One number for every company.', 'اتصل أو راسلنا على واتساب أو استخدم الطلب السريع. رقم واحد لجميع الشركات.')}</p></li>
+    <li class="reveal"><span class="step-n">2</span>${ic('cal', 'ic lg')}<h3>${T('We book a visit', 'نحجز لك زيارة')}</h3><p>${T('The right specialist team visits at a time that suits you, anywhere in Dubai.', 'يزورك الفريق المتخصص المناسب في الوقت الذي يناسبك في أي مكان في دبي.')}</p></li>
+    <li class="reveal"><span class="step-n">3</span>${ic('check', 'ic lg')}<h3>${T('Clear quote, quality work', 'عرض واضح وعمل متقن')}</h3><p>${T('You get a clear quote, then the work is done on time and to standard.', 'تحصل على عرض سعر واضح، ثم يُنجز العمل في موعده وبالجودة المطلوبة.')}</p></li>
+  </ol>
+  <div class="steps-cta reveal"><a class="btn btn-gold" href="booking.html">${ic('cal')}${x(S.book)}</a><a class="btn btn-line" href="contact.html#quote">${ic('doc')}${T('Get a quote', 'اطلب عرض سعر')}</a></div>
+</div></section>
 <section class="sec"><div class="wrap split">
   <div class="reveal"><p class="eyebrow">${T('About the group', 'عن المجموعة')}</p><h2>${T('A diversified group serving Dubai and the UAE', 'مجموعة متنوعة تخدم دبي والإمارات')}</h2>
   <p>${T('Sajid Group of Companies serves residential, commercial and corporate clients across Dubai and the UAE. Each company in the group holds its own trade licence and name. Our mission is simple: deliver dependable services that help clients improve properties, grow businesses and maintain safe, comfortable spaces.', 'تخدم مجموعة ساجد للشركات العملاء من الأفراد والشركات والمؤسسات في دبي وجميع أنحاء الإمارات. ولكل شركة في المجموعة رخصتها التجارية واسمها الخاص. مهمتنا بسيطة: تقديم خدمات موثوقة تساعد عملاءنا على تحسين عقاراتهم وتنمية أعمالهم والحفاظ على أماكن آمنة ومريحة.')}</p>
   <a class="link" href="about.html">${T('More about us', 'المزيد عنا')} ${ic('arrow', 'ic xs')}</a></div>
   <div class="stats reveal"><div><b>6</b><span>${T('Specialist companies', 'شركات متخصصة')}</span></div><div><b>60+</b><span>${T('Services under one roof', 'خدمة تحت سقف واحد')}</span></div><div><b>6</b><span>${T('Authority approvals', 'موافقات حكومية')}</span></div><div><b>1</b><span>${T('Point of contact', 'جهة تواصل واحدة')}</span></div></div>
 </div></section>
-<section class="sec alt" id="companies"><div class="wrap"><div class="sec-head reveal"><p class="eyebrow">${x(S.ourCos)}</p><h2>${T('Specialist services. One trusted group.', 'خدمات متخصصة. مجموعة واحدة موثوقة.')}</h2></div>
-<div class="grid3">${D.map(card).join('')}</div></div></section>
 <section class="sec itband"><div class="wrap itband-in reveal">
   <img src="${img}itoasis.png" alt="${ar ? 'شعار آي تي أويسس' : 'IT Oasis UAE logo'}" width="260" height="142" loading="lazy">
   <div><p class="eyebrow">${T('Technology partner of the group', 'الشريك التقني للمجموعة')}</p><h2>${T('IT Oasis UAE, our IT company', 'آي تي أويسس الإمارات، شركتنا للتقنية')}</h2><p>${T('POS and ERP systems, networks, CCTV, Microsoft 365, cybersecurity and AI for UAE businesses. The same team supports every company in Sajid Group.', 'أنظمة نقاط البيع وتخطيط الموارد، والشبكات، وكاميرات المراقبة، ومايكروسوفت 365، والأمن السيبراني والذكاء الاصطناعي للشركات في الإمارات. والفريق نفسه يدعم جميع شركات مجموعة ساجد.')}</p></div>
   <a class="btn btn-gold" href="${C.itoasis}" target="_blank" rel="noopener">${x(S.visitItSite)} ${ic('ext', 'ic xs')}</a>
 </div></section>
-<section class="sec"><div class="wrap"><div class="sec-head reveal"><p class="eyebrow">${T('Why choose us', 'لماذا تختارنا')}</p><h2>${T('Built on people, solutions and sustainability', 'قائمة على الناس والحلول والاستدامة')}</h2></div>${why()}</div></section>
-<section class="sec alt"><div class="wrap"><div class="sec-head reveal"><p class="eyebrow">${T('Authority approvals', 'الموافقات الحكومية')}</p><h2>${T('Approved and compliant', 'معتمدون وملتزمون بالمعايير')}</h2></div>
+<section class="sec"><div class="wrap"><div class="sec-head reveal"><p class="eyebrow">${T('Why choose us', 'لماذا تختارنا')}</p><h2>${T('Built on people, solutions and sustainability', 'قائمة على الناس والحلول والاستدامة')}</h2></div>${why()}
 <ul class="approvals reveal">${APPROVALS.map(a => `<li>${ic('check')}${x(a)}</li>`).join('')}</ul></div></section>
 ${faqSection(HOME_FAQ)}${cta()}` });
 
@@ -333,7 +380,7 @@ ${faqSection(HOME_FAQ)}${cta()}` });
     ld: ar ? [] : [crumbUrls(coCrumbs), { '@type': 'ItemList', name: 'Companies of Sajid Group', itemListElement: D.map((d, i) => ({ '@type': 'ListItem', position: i + 1, name: d.name.en, url: url(d.slug + '.html') })) }],
     desc: T('The six companies of Sajid Group in Dubai: fit-out and technical services, real estate, pest control, advertising, business setup and PRO, and IT.','تعرّف على شركات مجموعة ساجد الست: الديكور والخدمات الفنية، العقارات، مكافحة الحشرات، الإعلان، خدمات الشركات وآي تي أويسس الإمارات.'),
     body: head(x(S.ourCos), T('Specialist services. One trusted group.', 'خدمات متخصصة. مجموعة واحدة موثوقة.'), T('Each company is separately licensed and trades under its own name, run by its own specialist team, with Sajid Group as one point of contact for you.', 'كل شركة مرخصة بشكل مستقل وتعمل باسمها الخاص ويديرها فريق متخصص، مع مجموعة ساجد كجهة تواصل واحدة لك.'), crumbs(coCrumbs)) +
-      `<section class="sec"><div class="wrap"><div class="grid3">${D.map(card).join('')}</div></div></section>${cta()}` });
+      `<section class="sec"><div class="wrap"><div class="cogrid">${D.map((d, i) => card(d, i)).join('')}</div></div></section>${cta()}` });
 
   for (const d of D) {
     const others = D.filter(o => o !== d).map(o => `<li><a href="${o.slug}.html">${ic(o.icon)}${x(o.short)}</a></li>`).join('');
@@ -344,8 +391,11 @@ ${faqSection(HOME_FAQ)}${cta()}` });
     pages.push({ file: `${d.slug}.html`, active: 'companies.html', title: T(seo.title, `${d.name.ar} | مجموعة ساجد دبي`),
       ld: ar ? [] : [bizLd, crumbUrls(cr), faqLd(seo.faq, pageUrl)],
       desc: T(seo.desc, `${d.name.ar}، إحدى شركات مجموعة ساجد في دبي: ${d.tag.ar}. اتصل أو راسلنا على واتساب ${C.phones[0]}.`),
-      body: head(x(d.short), x(d.name), x(d.intro), crumbs(cr)) + `<section class="sec"><div class="wrap split top">
-  <div><h2 class="h3">${T('Our services', 'خدماتنا')}</h2><ul class="svc">${d.services.map(s => `<li class="reveal">${ic('check')}${x(s)}</li>`).join('')}</ul>
+      body: `<section class="cohero${d.logo ? ' cohero-logo' : ''}">${d.logo ? '' : `<img class="cohero-bg" src="${img}${d.img}" alt="" width="1200" height="750">`}<div class="wrap cohero-in">${crumbs(cr)}
+  <div class="cohero-copy"><p class="eyebrow">${ic(d.icon, 'ic xs')}${x(d.short)}</p><h1>${x(d.name)}</h1><p class="lead">${x(d.intro)}</p>
+  <div class="btns"><a class="btn btn-gold" href="${quoteMsg(d)}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a><a class="btn btn-line" href="booking.html?s=${d.slug}.0">${ic('cal')}${x(S.book)}</a><a class="btn btn-line" href="${tel(C.phones[0])}">${ic('phone')}${num(C.phones[0])}</a></div></div>
+  ${d.logo ? `<div class="cohero-mark">${itLogo(' big')}</div>` : ''}</div></section>` + `<section class="sec"><div class="wrap split top">
+  <div><h2 class="h3">${T('Our services', 'خدماتنا')}</h2><ul class="svc svc2">${d.services.map((sv, j) => `<li class="reveal">${ic('check')}<span>${x(sv)}</span><a class="svc-book" href="booking.html?s=${d.slug}.${j}">${T('Book', 'احجز')} ${ic('arrow', 'ic xs')}</a></li>`).join('')}</ul>
   ${d.alt ? `<p class="muted note">${x(d.alt)}</p>` : ''}</div>
   <aside class="side reveal">${d.logo ? itLogo(' big') : `<img class="side-img" src="${img}${d.img}" alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" width="1200" height="750">`}
     <h3>${T('Get a free quote', 'احصل على عرض سعر مجاني')}</h3><p>${T('Message us with what you need and we will reply quickly.', 'راسلنا بما تحتاجه وسنرد عليك بسرعة.')}</p>

@@ -76,6 +76,44 @@ document.documentElement.classList.add('js');
     [...g.children].forEach((c, i) => { if (c.classList.contains('reveal')) c.style.transitionDelay = Math.min(i, 8) * 70 + 'ms'; });
   });
 
+  // Company showcase: tabs that switch automatically until the visitor picks one
+  const tabs = [...document.querySelectorAll('.show-tab')];
+  if (tabs.length) {
+    let cur = 0, timer = null;
+    const show = (i, focus) => {
+      cur = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, j) => {
+        const on = j === cur; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; t.classList.remove('playing');
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tabs[cur].focus();
+      if (timer) { void tabs[cur].offsetWidth; tabs[cur].classList.add('playing'); }
+      const box = tabs[cur].parentElement; if (box.scrollWidth > box.clientWidth) box.scrollTo({ left: tabs[cur].offsetLeft - 16, behavior: still ? 'auto' : 'smooth' });
+    };
+    const stop = () => { clearInterval(timer); timer = null; tabs.forEach(t => t.classList.remove('playing')); };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { stop(); show(i); });
+      t.addEventListener('keydown', e => {
+        const k = e.key, rtl = ar0; let d = 0;
+        if (k === 'ArrowDown' || k === (rtl ? 'ArrowLeft' : 'ArrowRight')) d = 1;
+        if (k === 'ArrowUp' || k === (rtl ? 'ArrowRight' : 'ArrowLeft')) d = -1;
+        if (d) { e.preventDefault(); stop(); show(cur + d, true); }
+      });
+    });
+    const wrap = document.querySelector('.show-in');
+    if (!still && 'IntersectionObserver' in window) {
+      new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting && timer === null && !wrap.dataset.touched) { timer = setInterval(() => show(cur + 1), 7000); show(cur); }
+        else if (!e.isIntersecting && timer) stop();
+      }), { threshold: .4 }).observe(wrap);
+      wrap.addEventListener('pointerdown', () => { wrap.dataset.touched = 1; stop(); });
+    }
+  }
+
+  // Hero quick request: the chosen company sets the WhatsApp quote link; Book goes to the booking form
+  const qc = document.getElementById('qcard');
+  if (qc) qc.addEventListener('change', e => { const r = e.target; if (r.name === 's' && r.dataset.wa) document.getElementById('q-quote').href = r.dataset.wa; });
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); setTimeout(() => { t.style.transitionDelay = ''; }, 1100); if (t.matches('.stats')) t.querySelectorAll('b').forEach(countUp); io.unobserve(e.target); } }), { threshold: .12 });
