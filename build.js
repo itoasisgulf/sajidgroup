@@ -322,11 +322,12 @@ ${body}
     body: `<section class="hero hero2">
   <div class="hero-bg" aria-hidden="true"><img class="hero-sky" src="${img}hero-skyline.webp" alt="" width="1058" height="508" fetchpriority="high"></div>
   <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <h1 class="brand-title reveal"><span class="script">${T('Sajid Group', 'مجموعة ساجد')}</span><span class="caps">${T('of Companies', 'للشركات')}</span></h1>
-      <p class="tagline reveal">${x(S.tagline).replace(/ \| /g, '<i></i>')}</p>
-      <p class="lead reveal">${T('Six specialist companies, one trusted group in Dubai. Interiors, real estate, pest control, advertising, corporate services and IT, with one number to call.', 'ست شركات متخصصة ومجموعة واحدة موثوقة في دبي. الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات، برقم واحد للتواصل.')}</p>
-      <div class="hero-trust reveal"><span>${ic('check', 'ic xs')}${T('Separately licensed companies', 'شركات مرخصة بشكل مستقل')}</span><span>${ic('check', 'ic xs')}${T('Authority approved', 'معتمدون من الجهات الحكومية')}</span><span>${ic('check', 'ic xs')}${T('Free quotes', 'عروض أسعار مجانية')}</span></div>
+    <div class="hero-copy hx">
+      <p class="hx-chip reveal"><span class="hx-dot"></span>${T('Sajid Group of Companies · Dubai', 'مجموعة ساجد للشركات · دبي')}</p>
+      <h1 class="hx-h reveal">${T('Everything your home and business needs, <span>in one group.</span>', 'كل ما يحتاجه منزلك وعملك، <span>في مجموعة واحدة.</span>')}</h1>
+      <p class="hx-lead reveal">${T('Interiors, real estate, pest control, advertising, corporate services and IT across Dubai. Six licensed companies, one number to call.', 'الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات في دبي. ست شركات مرخصة ورقم واحد للتواصل.')}</p>
+      <div class="hx-btns reveal"><a class="hx-b1" href="booking.html">${ic('cal')}${x(S.book)} ${ic('arrow', 'ic xs')}</a><a class="hx-b2" href="${W()}" target="_blank" rel="noopener">${ic('wa')}${T('WhatsApp a quote', 'اطلب عرض سعر عبر واتساب')}</a></div>
+      <ul class="hx-trust reveal"><li><b>6</b>${T('licensed companies', 'شركات مرخصة')}</li><li><b dir="ltr">60+</b>${T('services', 'خدمة')}</li><li><b>${ic('check', 'ic xs')}</b>${T('Authority approved', 'معتمدون حكومياً')}</li></ul>
     </div>
     <div class="deck reveal" data-deck aria-roledescription="carousel" aria-label="${x(S.ourCos)}">
       ${D.map((d, i) => `<article class="dcard" data-i="${i}" aria-label="${x(d.name)}">
