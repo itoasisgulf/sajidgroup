@@ -1,2 +1,2 @@
-// Runs before the page paints so there is no flash: dark is the default, light only if the visitor chose it (or ?theme=light).
-(function () { var t = 'dark'; try { var q = new URLSearchParams(location.search).get('theme'); if (q === 'light' || q === 'dark') { t = q; } else if (localStorage.getItem('sg-theme') === 'light') { t = 'light'; } } catch (e) {} document.documentElement.setAttribute('data-theme', t); })();
+// Runs before the page paints so there is no flash: light is the default, dark only if the visitor chose it (or ?theme=dark).
+(function () { var t = 'light'; try { var q = new URLSearchParams(location.search).get('theme'); if (q === 'light' || q === 'dark') { t = q; } else if (localStorage.getItem('sg-theme') === 'dark') { t = 'dark'; } } catch (e) {} document.documentElement.setAttribute('data-theme', t); })();

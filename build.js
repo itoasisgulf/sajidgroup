@@ -225,7 +225,7 @@ ${noindex ? '' : `<link rel="canonical" href="${url(file)}">
 <meta property="og:image" content="${SITE}/assets/img/sg-logo-og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="1200"><meta property="og:image:alt" content="${x(S.full)} logo"><meta property="og:url" content="${url(file)}"><meta property="og:locale" content="${ar ? 'ar_AE' : 'en_AE'}"><meta property="og:locale:alternate" content="${ar ? 'en_AE' : 'ar_AE'}">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}/assets/img/sg-logo-og.jpg">
 <meta name="geo.region" content="AE-DU"><meta name="geo.placename" content="Bur Dubai, Dubai"><meta name="geo.position" content="${C.geo.lat};${C.geo.lng}"><meta name="ICBM" content="${C.geo.lat}, ${C.geo.lng}">
-<meta name="theme-color" content="#0b0b0c"><meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#faf7f0"><meta name="color-scheme" content="light dark">
 <script src="${base}assets/theme.js"></script>
 <link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png">
 ${fonts}${preload}

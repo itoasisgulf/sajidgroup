@@ -15,7 +15,7 @@ document.documentElement.classList.add('js');
     if (tt) tt.setAttribute('aria-pressed', t === 'light');
     if (meta) meta.content = t === 'light' ? '#faf7f0' : '#0b0b0c';
   };
-  setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
   if (tt) tt.addEventListener('click', () => {
     const t = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     setTheme(t); try { localStorage.setItem('sg-theme', t); } catch (e) {}
