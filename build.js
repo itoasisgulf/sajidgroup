@@ -43,6 +43,8 @@ const I = {
   ig: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  down: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  share: '<path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/>',
   up: '<path d="M12 19V5M5 12l7-7 7 7"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   pin: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
@@ -227,7 +229,7 @@ ${noindex ? '' : `<link rel="canonical" href="${url(file)}">
 <meta name="geo.region" content="AE-DU"><meta name="geo.placename" content="Bur Dubai, Dubai"><meta name="geo.position" content="${C.geo.lat};${C.geo.lng}"><meta name="ICBM" content="${C.geo.lat}, ${C.geo.lng}">
 <meta name="theme-color" content="#faf7f0"><meta name="color-scheme" content="light dark">
 <script src="${base}assets/theme.js"></script>
-<link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="${img}favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="${img}favicon.png"><link rel="apple-touch-icon" href="${img}apple-touch-icon.png"><link rel="manifest" href="${base}assets/manifest.webmanifest"><meta name="apple-mobile-web-app-title" content="Sajid Group">
 ${fonts}${preload}
 <link rel="stylesheet" href="${base}assets/fonts-${ar ? 'ar' : 'en'}.css">
 <link rel="stylesheet" href="${base}styles.css">
@@ -241,6 +243,7 @@ ${ldTag}
   <a class="tb-link" href="${tel(C.phones[0])}">${ic('phone', 'ic xs')}${num(C.phones[0])}</a>
   <a class="tb-link hide-sm" href="mailto:${C.email}">${ic('mail', 'ic xs')}${C.email}</a>
   <a class="tb-link hide-sm" href="${C.mapLink}" target="_blank" rel="noopener">${ic('pin', 'ic xs')}${x(O.area)}, ${x(O.city)}</a>
+  <button class="tb-install" type="button" data-install hidden>${ic('down', 'ic xs')}${ar ? 'اختصار' : 'Shortcut'}</button>
   <a class="lang tb-lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a>
 </div></div>
 <header class="hdr">
@@ -268,6 +271,7 @@ ${body}
       <li>${ic('ig')}<a href="${C.instagram}" target="_blank" rel="noopener">@sajiid.group</a></li>
       <li>${ic('pin')}<a href="${C.mapLink}" target="_blank" rel="noopener">${addrLines(', ')}</a></li>
       <li>${ic('cal')}<a href="booking.html">${x(S.book)}</a></li>
+      <li class="ftr-install" data-install hidden>${ic('down')}<button type="button">${ar ? 'أضف اختصار مجموعة ساجد إلى شاشتك' : 'Add a Sajid Group shortcut to your home screen'}</button></li>
       <li>${ic('clock')}<span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}<br><span class="open-badge" data-open hidden></span></span></li></ul></div>
   </div>
   <div class="wrap ftr-bot"><span>&copy; <span id="yr">2026</span> ${x(S.full)}. ${x(S.rights)}</span><a href="${C.itoasis}" target="_blank" rel="noopener">${x(S.itPartner)} ${ic('ext', 'ic xs')}</a></div>
@@ -279,6 +283,14 @@ ${body}
   <a class="dock-main" href="booking.html">${ic('cal')}<span>${ar ? 'احجز' : 'Book'}</span></a>
 </nav>
 <a class="wa-float" href="${W()}" target="_blank" rel="noopener" aria-label="${x(S.whatsapp)}">${ic('wa')}</a>
+<div class="ios-tip" id="ios-tip" role="dialog" aria-modal="true" aria-labelledby="ios-tip-h" hidden><div class="ios-box">
+  <button class="ios-x" type="button" aria-label="${ar ? 'إغلاق' : 'Close'}">&times;</button>
+  <img src="${img}icon-192.png" alt="" width="64" height="64">
+  <h3 id="ios-tip-h">${ar ? 'أضف اختصار مجموعة ساجد' : 'Add a Sajid Group shortcut'}</h3>
+  <p class="ios-sub">${ar ? 'أيقونة على شاشتك الرئيسية تفتح موقعنا في المتصفح بلمسة واحدة.' : 'An icon on your home screen that opens our website in your browser with one tap.'}</p>
+  <ol data-os="ios"><li>${ar ? 'اضغط زر <b>المشاركة</b> في Safari' : 'Tap the <b>Share</b> button in Safari'} <span class="ios-share" aria-hidden="true">${ic('share', 'ic xs')}</span></li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home Screen</b>'}</li><li>${ar ? 'اضغط <b>إضافة</b>' : 'Tap <b>Add</b>'}</li></ol>
+  <ol data-os="android" hidden><li>${ar ? 'اضغط قائمة المتصفح <b>⋮</b> في الأعلى' : 'Tap the browser menu <b>⋮</b> at the top'}</li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home screen</b>'}</li><li>${ar ? 'اختر <b>إنشاء اختصار</b> ثم <b>إضافة</b>' : 'Pick <b>Create shortcut</b>, then <b>Add</b>'}</li></ol>
+</div></div>
 <button class="to-top" type="button" aria-label="${ar ? 'العودة إلى الأعلى' : 'Back to top'}">${ic('up')}</button>
 <script src="${base}app.js" defer></script>
 </body>

@@ -137,6 +137,18 @@ document.documentElement.classList.add('js');
     if (!still) { auto = setInterval(() => go(front + 1), 4200); deck.addEventListener('pointerenter', halt, { once: true }); }
   }
 
+  // Add to home screen: a browser shortcut (not an app). Phones only; shows the steps for iPhone or Android.
+  const inst = [...document.querySelectorAll('[data-install]')], tip = document.getElementById('ios-tip');
+  const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1), android = /android/i.test(ua);
+  if ((ios || android) && tip) {
+    inst.forEach(b => { b.hidden = false; });
+    tip.querySelector('[data-os="ios"]').hidden = !ios; tip.querySelector('[data-os="android"]').hidden = !android;
+    inst.forEach(b => b.addEventListener('click', () => { tip.hidden = false; tip.querySelector('.ios-x').focus(); }));
+    tip.addEventListener('click', e => { if (e.target === tip || e.target.closest('.ios-x')) tip.hidden = true; });
+    addEventListener('keydown', e => { if (e.key === 'Escape') tip.hidden = true; });
+    if (location.hash === '#add-to-home') tip.hidden = false;
+  }
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); setTimeout(() => { t.style.transitionDelay = ''; }, 1100); if (t.matches('.stats')) t.querySelectorAll('b').forEach(countUp); io.unobserve(e.target); } }), { threshold: .12 });

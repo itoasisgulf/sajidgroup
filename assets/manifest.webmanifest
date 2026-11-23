@@ -1,0 +1,65 @@
+{
+  "name": "Sajid Group of Companies",
+  "short_name": "Sajid Group",
+  "description": "Book a visit or get a quote from the six companies of Sajid Group in Dubai.",
+  "id": "/",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#0b0b0c",
+  "theme_color": "#0b0b0c",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book a visit",
+      "url": "/booking.html",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Get a quote",
+      "url": "/contact.html#quote",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "العربية",
+      "url": "/ar/",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
