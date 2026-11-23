@@ -148,7 +148,7 @@ document.documentElement.classList.add('js');
     inst.forEach(b => { b.hidden = false; });
     tip.querySelector('[data-os="ios"]').hidden = !ios; tip.querySelector('[data-os="android"]').hidden = !android;
     const addBtn = tip.querySelector('.tip-add'), andSteps = tip.querySelector('[data-os="android"]');
-    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; if (addBtn) addBtn.hidden = false; if (andSteps) andSteps.hidden = true; });
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; if (addBtn) addBtn.hidden = false; if (andSteps) andSteps.hidden = true; const c = tip.querySelector('.tip-chrome'), o = tip.querySelector('.tip-or'); if (c) c.hidden = true; if (o) o.hidden = true; });
     if (addBtn) addBtn.addEventListener('click', async () => { if (!deferred) return; const d = deferred; deferred = null; tip.hidden = true; d.prompt(); try { await d.userChoice; } catch (e) {} });
     addEventListener('appinstalled', () => { deferred = null; inst.forEach(b => { b.hidden = true; }); });
     inst.forEach(b => b.addEventListener('click', async () => {
@@ -157,7 +157,14 @@ document.documentElement.classList.add('js');
     }));
     tip.addEventListener('click', e => { if (e.target === tip || e.target.closest('.ios-x')) tip.hidden = true; });
     addEventListener('keydown', e => { if (e.key === 'Escape') tip.hidden = true; });
-    if (location.hash === '#add-to-home') openTip();
+    // Android without the pop-up (for example inside WhatsApp or Instagram): offer to reopen the page in Chrome, where it works
+    const chrome = tip.querySelector('.tip-chrome'), orTxt = tip.querySelector('.tip-or');
+    if (android && chrome) {
+      chrome.href = 'intent://' + location.host + location.pathname + '?add=1#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(location.origin + location.pathname + '?add=1') + ';end';
+      const syncChrome = () => { const need = !deferred; chrome.hidden = !need; if (orTxt) orTxt.hidden = !need; };
+      syncChrome(); addEventListener('beforeinstallprompt', syncChrome);
+    }
+    if (location.hash === '#add-to-home' || new URLSearchParams(location.search).get('add') === '1') openTip();
   }
 
   const els = document.querySelectorAll('.reveal');

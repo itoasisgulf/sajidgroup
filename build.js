@@ -288,6 +288,8 @@ ${body}
   <img src="${img}icon-192.png" alt="" width="64" height="64">
   <h3 id="ios-tip-h">${ar ? 'أضف اختصار مجموعة ساجد' : 'Add a Sajid Group shortcut'}</h3>
   <p class="ios-sub">${ar ? 'أيقونة على شاشتك الرئيسية تفتح موقعنا في المتصفح بلمسة واحدة.' : 'An icon on your home screen that opens our website in your browser with one tap.'}</p>
+  <a class="tip-add tip-chrome" href="#" hidden>${ic('ext', 'ic xs')}${ar ? 'افتح في Chrome' : 'Open in Chrome'}</a>
+  <p class="tip-or" hidden>${ar ? 'ثم اضغط <b>أضف إلى الشاشة الرئيسية</b>. أو يدوياً:' : 'Then tap <b>Add to home screen</b> there. Or do it by hand:'}</p>
   <button class="tip-add" type="button" hidden>${ic('down', 'ic xs')}${ar ? 'أضف إلى الشاشة الرئيسية' : 'Add to home screen'}</button>
   <ol data-os="ios"><li>${ar ? 'اضغط زر <b>المشاركة</b> في Safari' : 'Tap the <b>Share</b> button in Safari'} <span class="ios-share" aria-hidden="true">${ic('share', 'ic xs')}</span></li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home Screen</b>'}</li><li>${ar ? 'اضغط <b>إضافة</b>' : 'Tap <b>Add</b>'}</li></ol>
   <ol data-os="android" hidden><li>${ar ? 'اضغط قائمة المتصفح <b>⋮</b> في الأعلى' : 'Tap the browser menu <b>⋮</b> at the top'}</li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home screen</b>'}</li><li>${ar ? 'اختر <b>إنشاء اختصار</b> ثم <b>إضافة</b>' : 'Pick <b>Create shortcut</b>, then <b>Add</b>'}</li></ol>
