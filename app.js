@@ -7,7 +7,7 @@ document.documentElement.classList.add('js');
   const root = document.documentElement, ar0 = root.lang === 'ar';
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Light / dark switch (dark is the default; the choice is remembered on this device)
+  // Light / dark switch (light is the default; the choice is remembered on this device)
   const tt = document.querySelector('.theme-t');
   const meta = document.querySelector('meta[name="theme-color"]');
   const setTheme = t => {
@@ -21,60 +21,27 @@ document.documentElement.classList.add('js');
     setTheme(t); try { localStorage.setItem('sg-theme', t); } catch (e) {}
   });
 
-  // Header shrink, reading progress, back to top, hero skyline drift
+  // Header shrink, reading progress, back to top.
+  // Layout is measured only on resize / body size change / load (never in the scroll path); writes happen only when a value changes.
   const hdr = document.querySelector('.hdr'), bar = document.querySelector('.progress');
-  const top = document.querySelector('.to-top'), sky = document.querySelector('.hero-sky');
-  let ticking = false;
-  const onScroll = () => {
-    const y = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
-    if (hdr) hdr.classList.toggle('scrolled', y > 20);
-    if (bar) bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
-    if (top) top.classList.toggle('show', y > 600);
-    if (sky && !still && y < 900) sky.style.transform = 'translateY(' + (y * 0.12).toFixed(1) + 'px)' + (ar0 ? ' scaleX(-1)' : '');
+  const top = document.querySelector('.to-top');
+  let ticking = false, maxY = 0, hs = false, ts = false, lastP = -1, lastB = -1;
+  const paint = () => {
     ticking = false;
+    const y = window.scrollY, f = maxY > 0 ? Math.min(1, Math.max(0, y / maxY)) : 0;
+    const s = y > 20; if (hdr && s !== hs) { hs = s; hdr.classList.toggle('scrolled', s); }
+    const t = y > 600; if (top && t !== ts) { ts = t; top.classList.toggle('show', t); }
+    const pb = Math.round(f * 1000) / 1000; if (bar && pb !== lastB) { lastB = pb; bar.style.transform = 'scaleX(' + pb + ')'; }
+    const pp = Math.round(f * 200) / 200; if (top && ts && pp !== lastP) { lastP = pp; top.style.setProperty('--p', pp); }
   };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  onScroll();
+  const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
+  const measure = () => { maxY = Math.max(0, root.scrollHeight - innerHeight); lastP = -1; queue(); };
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', measure, { passive: true });
+  addEventListener('load', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body); else measure();
+  queue();
   if (top) top.addEventListener('click', () => scrollTo({ top: 0, behavior: still ? 'auto' : 'smooth' }));
-
-  // Cursor spotlight on cards
-  document.addEventListener('pointermove', e => {
-    const c = e.target.closest && e.target.closest('.co,.why,.stats div,.svc-cards li,.cards li'); if (!c) return;
-    const r = c.getBoundingClientRect();
-    c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
-  }, { passive: true });
-
-  // Count-up for the numbers on the home page
-  const countUp = el => {
-    if (el.dataset.counted) return; el.dataset.counted = 1;
-    const m = el.textContent.trim().match(/^(\d+)(.*)$/); if (!m || still) return;
-    const end = +m[1], suf = m[2], t0 = performance.now(), dur = 1200;
-    const step = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(step); };
-    el.textContent = '0' + suf; requestAnimationFrame(step);
-  };
-
-  // Open now / closed badge (Dubai time, Monday to Saturday 9 AM to 8 PM)
-  const badges = document.querySelectorAll('[data-open]');
-  if (badges.length) {
-    const upd = () => {
-      let d, h;
-      try {
-        const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dubai', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date());
-        d = p.find(x => x.type === 'weekday').value; h = +p.find(x => x.type === 'hour').value % 24;
-      } catch (e) { return; }
-      const open = d !== 'Sun' && h >= 9 && h < 20;
-      const txt = open ? (ar0 ? 'مفتوح الآن · يغلق 8:00 مساءً' : 'Open now · closes 8:00 PM')
-        : (ar0 ? 'مغلق الآن · ' + (d === 'Sat' && h >= 20 ? 'يفتح الاثنين 9:00 صباحاً' : (d === 'Sun' ? 'يفتح غداً 9:00 صباحاً' : (h < 9 ? 'يفتح 9:00 صباحاً' : 'يفتح غداً 9:00 صباحاً')))
-               : 'Closed now · opens ' + (d === 'Sat' && h >= 20 ? 'Monday 9:00 AM' : (d === 'Sun' ? 'tomorrow 9:00 AM' : (h < 9 ? 'today 9:00 AM' : 'tomorrow 9:00 AM'))));
-      badges.forEach(b => { b.textContent = txt; b.classList.toggle('is-open', open); b.classList.toggle('is-closed', !open); b.hidden = false; });
-    };
-    upd(); setInterval(upd, 60000);
-  }
-
-  // Stagger: items revealed together come in one after another
-  document.querySelectorAll('.grid3,.grid4,.stats,.svc-cards,.faq,.cards').forEach(g => {
-    [...g.children].forEach((c, i) => { if (c.classList.contains('reveal')) c.style.transitionDelay = Math.min(i, 8) * 70 + 'ms'; });
-  });
 
   // Company showcase: tabs that switch automatically until the visitor picks one
   const tabs = [...document.querySelectorAll('.show-tab')];
@@ -129,12 +96,47 @@ document.documentElement.classList.add('js');
       });
       dots.forEach((d, i) => d.setAttribute('aria-selected', i === front));
     };
-    const go = i => { front = (i + cards.length) % cards.length; lay(); };
-    const halt = () => { clearInterval(auto); auto = null; };
+    let lock = 0, arr = null;
+    const go = i => {
+      const n = (i + cards.length) % cards.length, moved = n !== front;
+      front = n; lay();
+      if (moved) {                                   // the arriving card lifts in an arc while it slides over the old front card
+        lock = Date.now() + 1100; clearTimeout(arr);
+        cards.forEach(c => c.classList.remove('arrive'));
+        void cards[n].offsetWidth; cards[n].classList.add('arrive');
+        arr = setTimeout(() => cards[n].classList.remove('arrive'), 1200);
+      }
+    };
+    let dead = false, vis = true;
+    const pause = () => { clearInterval(auto); auto = null; };
+    const halt = () => { dead = true; pause(); };
+    const run = () => { if (!auto && !dead && vis && !document.hidden) auto = setInterval(() => go(front + 1), 4200); };
     cards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('p0')) { e.preventDefault(); halt(); go(i); } }));
     dots.forEach(d => d.addEventListener('click', () => { halt(); go(+d.dataset.go); }));
+    // Hover intent (mouse only): a card behind comes forward slowly if the pointer rests on it
+    const finePtr = matchMedia('(hover: hover) and (pointer: fine)');
+    cards.forEach((c, i) => {
+      let t = null;
+      const cancel = () => { clearTimeout(t); t = null; };
+      const arm = e => {
+        if (t || e.pointerType === 'touch' || !finePtr.matches || c.classList.contains('p0') || !(c.classList.contains('p1') || c.classList.contains('p2'))) return;
+        if (!e.movementX && !e.movementY) return;                       // only real pointer movement counts (cards sliding under a still mouse do not)
+        if (Date.now() < lock) return;
+        t = setTimeout(() => {
+          t = null;
+          if (c.matches(':hover') && !c.classList.contains('p0')) { halt(); go(i); }
+        }, 220);
+      };
+      c.addEventListener('pointermove', arm);
+      c.addEventListener('pointerleave', cancel);
+    });
     lay();
-    if (!still) { auto = setInterval(() => go(front + 1), 4200); deck.addEventListener('pointerenter', halt, { once: true }); }
+    if (!still) {
+      run(); deck.addEventListener('pointerenter', halt, { once: true });
+      // the shuffle only ticks while the deck is on screen and the tab is visible
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => { vis = es[es.length - 1].isIntersecting; vis ? run() : pause(); }).observe(deck);
+      document.addEventListener('visibilitychange', () => document.hidden ? pause() : run());
+    }
   }
 
   // Home screen shortcut. Android: the phone's own one-tap "Add" pop-up when the browser offers it.
@@ -166,12 +168,6 @@ document.documentElement.classList.add('js');
     }
     if (location.hash === '#add-to-home' || new URLSearchParams(location.search).get('add') === '1') openTip();
   }
-
-  const els = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); setTimeout(() => { t.style.transitionDelay = ''; }, 1100); if (t.matches('.stats')) t.querySelectorAll('b').forEach(countUp); io.unobserve(e.target); } }), { threshold: .12 });
-    els.forEach(el => io.observe(el));
-  } else els.forEach(el => el.classList.add('in'));
 
   // Quote and booking forms: send the details to WhatsApp or email (no server needed)
   const PH = '971528264786', MAIL = 'sajiid.group@gmail.com';
@@ -207,6 +203,7 @@ document.documentElement.classList.add('js');
     let flt = 'all';
     const run = () => {
       const t = sq.value.trim().toLowerCase(); let any = false;
+      document.querySelectorAll('.svc-cards').forEach(u => u.classList.add('svc-f'));
       document.querySelectorAll('.svc-group').forEach(g => {
         let n = 0;
         g.querySelectorAll('li').forEach(li => { const ok = (flt === 'all' || g.dataset.g === flt) && li.dataset.t.includes(t); li.hidden = !ok; if (ok) n++; });
@@ -220,4 +217,25 @@ document.documentElement.classList.add('js');
       document.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === c)); flt = c.dataset.f; run();
     });
   }
+})();
+
+// Instant page-to-page navigation: prefetch a same-site page when the pointer rests on its link (or on press, touch, focus),
+// so the click lands on an already fetched document. Nothing is fetched for external links, downloads or slow connections.
+(() => {
+  const l = document.createElement('link');
+  if (!l.relList || !l.relList.supports || !l.relList.supports('prefetch')) return;
+  const cn = navigator.connection; if (cn && (cn.saveData || /(^|-)2g$/.test(cn.effectiveType || ''))) return;
+  const seen = new Set([location.pathname + location.search]); let timer = 0;
+  const go = e => {
+    const a = e.target && e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target || a.hasAttribute('download') || !/^https?:$/.test(a.protocol) || a.origin !== location.origin) return;
+    if (/\.(pdf|zip|png|jpe?g|webp|svg|ico|webmanifest|xml|txt)$/i.test(a.pathname)) return;
+    const k = a.pathname + a.search; if (seen.has(k)) return; seen.add(k);
+    const p = document.createElement('link'); p.rel = 'prefetch'; p.as = 'document'; p.href = a.origin + k; document.head.appendChild(p);
+  };
+  document.addEventListener('pointerover', e => { if (e.pointerType === 'touch') return; clearTimeout(timer); timer = setTimeout(() => go(e), 60); }, { passive: true });
+  document.addEventListener('pointerout', () => clearTimeout(timer), { passive: true });
+  document.addEventListener('pointerdown', go, { passive: true });
+  document.addEventListener('touchstart', go, { passive: true });
+  document.addEventListener('focusin', go);
 })();

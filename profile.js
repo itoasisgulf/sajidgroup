@@ -15,7 +15,7 @@ const x = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 const cos = D.map((d, i) => `
 <article class="co">
-  <div class="co-media">${d.img ? `<img src="${img(d.img)}" alt="${x(d.name.en)}">` : `<div class="co-logo"><img src="${img(d.logo || 'itoasis.png')}" alt="${x(d.name.en)}"></div>`}</div>
+  <div class="co-media">${d.img ? `<img src="${img(d.img.replace('.jpg', '-1200.webp'))}" alt="${x(d.name.en)}">` : `<div class="co-logo"><img src="${img('itoasis-gulf-dark-640.webp')}" alt="${x(d.name.en)}"></div>`}</div>
   <div class="co-body">
     <p class="co-n">${String(i + 1).padStart(2, '0')}</p>
     <h3>${x(d.name.en)}</h3>

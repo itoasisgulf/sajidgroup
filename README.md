@@ -11,6 +11,8 @@ node build.js
 
 This rewrites the English pages in the root, the Arabic pages in `ar/` (right to left), `sitemap.xml` and `robots.txt`. Styles are in `styles.css`, behaviour in `app.js`, images in `assets/img/`.
 
+The pages load minified bundles, not the source files. `bundle.js` (run by `build.js`) joins `styles.css` + `assets/css/ui.css` (+ the fonts css) into `assets/css/site-en.min.css` / `site-ar.min.css`, `app.js` + `assets/js/motion.js` into `assets/js/site.min.js`, and the home-only `hero.css` / `hero.js` into `hero.min.*`. Edit the sources, run `node build.js`, and commit the regenerated `.min` files too (the deploy does not build). Minifying uses `npx esbuild`, so Node needs network access the first time; nothing is added to the repo.
+
 ## Preview locally
 
 ```bash
@@ -25,7 +27,7 @@ The site is hosted on GitHub Pages at https://sajidgroup.com. Run `node build.js
 ## Pages
 Every page exists in English (`/`) and Arabic (`/ar/`), with a language switch in the menu and hreflang tags.
 
-Home, About, Our Companies, Contact, 404, and one page per company: Interior & Technical, Real Estate, Pest Control, Advertising, Corporate Services, IT Oasis UAE (links to https://itoasisgulf.com).
+Home, About, Our Companies, Contact, 404, and one page per company: Interior & Technical, Real Estate, Pest Control, Advertising, Corporate Services, IT Oasis Gulf (links to https://itoasisgulf.com).
 
 ## Live hosting (GitHub Pages)
 - Live: https://sajidgroup.com (domain at Namecheap, DNS points to GitHub Pages; the `CNAME` file holds the domain).
