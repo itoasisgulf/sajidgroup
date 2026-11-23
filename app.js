@@ -137,16 +137,27 @@ document.documentElement.classList.add('js');
     if (!still) { auto = setInterval(() => go(front + 1), 4200); deck.addEventListener('pointerenter', halt, { once: true }); }
   }
 
-  // Add to home screen: a browser shortcut (not an app). Phones only; shows the steps for iPhone or Android.
+  // Home screen shortcut. Android: the phone's own one-tap "Add" pop-up when the browser offers it.
+  // iPhone (Apple allows no automatic adding) and any browser without the pop-up: a short step-by-step guide.
   const inst = [...document.querySelectorAll('[data-install]')], tip = document.getElementById('ios-tip');
   const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1), android = /android/i.test(ua);
-  if ((ios || android) && tip) {
+  const added = matchMedia('(display-mode: minimal-ui)').matches || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  let deferred = null;
+  const openTip = () => { if (!tip) return; tip.hidden = false; tip.querySelector('.ios-x').focus(); };
+  if ((ios || android) && tip && !added) {
     inst.forEach(b => { b.hidden = false; });
     tip.querySelector('[data-os="ios"]').hidden = !ios; tip.querySelector('[data-os="android"]').hidden = !android;
-    inst.forEach(b => b.addEventListener('click', () => { tip.hidden = false; tip.querySelector('.ios-x').focus(); }));
+    const addBtn = tip.querySelector('.tip-add'), andSteps = tip.querySelector('[data-os="android"]');
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; if (addBtn) addBtn.hidden = false; if (andSteps) andSteps.hidden = true; });
+    if (addBtn) addBtn.addEventListener('click', async () => { if (!deferred) return; const d = deferred; deferred = null; tip.hidden = true; d.prompt(); try { await d.userChoice; } catch (e) {} });
+    addEventListener('appinstalled', () => { deferred = null; inst.forEach(b => { b.hidden = true; }); });
+    inst.forEach(b => b.addEventListener('click', async () => {
+      if (deferred) { const d = deferred; deferred = null; d.prompt(); try { await d.userChoice; } catch (e) {} }
+      else openTip();
+    }));
     tip.addEventListener('click', e => { if (e.target === tip || e.target.closest('.ios-x')) tip.hidden = true; });
     addEventListener('keydown', e => { if (e.key === 'Escape') tip.hidden = true; });
-    if (location.hash === '#add-to-home') tip.hidden = false;
+    if (location.hash === '#add-to-home') openTip();
   }
 
   const els = document.querySelectorAll('.reveal');

@@ -543,3 +543,5 @@ body,.hdr,.co,.why,.form,.cards li,.svc li,.svc-cards li,.stats div,.faq details
 .ios-sub{color:#a9a39a;font-size:.88rem;margin:-6px 0 12px}
 .ios-box ol[hidden]{display:none}
 @media (max-width:860px){.topbar-in{gap:.6rem}.topbar .open-badge{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;display:block;white-space:nowrap}.topbar .open-badge:before{display:inline-block;vertical-align:middle;margin-inline-end:.4rem}.tb-install{flex:none}.tb-lang{flex:none}}
+.tip-add{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;margin:4px 0 6px;padding:14px;border:0;border-radius:14px;background:linear-gradient(135deg,#f6d77a,#c9952c);color:#141006;font:700 1rem Inter,Tajawal,sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(227,181,73,.35)}
+.tip-add[hidden]{display:none}

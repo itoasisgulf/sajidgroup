@@ -5,7 +5,7 @@
   "id": "/",
   "start_url": "/?source=app",
   "scope": "/",
-  "display": "browser",
+  "display": "minimal-ui",
   "background_color": "#0b0b0c",
   "theme_color": "#0b0b0c",
   "lang": "en",
@@ -61,5 +61,9 @@
         }
       ]
     }
+  ],
+  "display_override": [
+    "minimal-ui",
+    "browser"
   ]
 }
