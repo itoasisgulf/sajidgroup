@@ -243,7 +243,7 @@ ${ldTag}
   <a class="tb-link" href="${tel(C.phones[0])}">${ic('phone', 'ic xs')}${num(C.phones[0])}</a>
   <a class="tb-link hide-sm" href="mailto:${C.email}">${ic('mail', 'ic xs')}${C.email}</a>
   <a class="tb-link hide-sm" href="${C.mapLink}" target="_blank" rel="noopener">${ic('pin', 'ic xs')}${x(O.area)}, ${x(O.city)}</a>
-  <button class="tb-install" type="button" data-install hidden>${ic('down', 'ic xs')}${ar ? 'اختصار' : 'Shortcut'}</button>
+  <button class="tb-install" type="button" data-install hidden>${ic('down', 'ic xs')}${ar ? 'التطبيق' : 'Get the app'}</button>
   <a class="lang tb-lang" href="${ar ? '../' : 'ar/'}${file}" hreflang="${ar ? 'en' : 'ar'}" lang="${ar ? 'en' : 'ar'}">${ic('globe', 'ic xs')}${x(S.other)}</a>
 </div></div>
 <header class="hdr">
@@ -271,7 +271,7 @@ ${body}
       <li>${ic('ig')}<a href="${C.instagram}" target="_blank" rel="noopener">@sajiid.group</a></li>
       <li>${ic('pin')}<a href="${C.mapLink}" target="_blank" rel="noopener">${addrLines(', ')}</a></li>
       <li>${ic('cal')}<a href="booking.html">${x(S.book)}</a></li>
-      <li class="ftr-install" data-install hidden>${ic('down')}<button type="button">${ar ? 'أضف اختصار مجموعة ساجد إلى شاشتك' : 'Add a Sajid Group shortcut to your home screen'}</button></li>
+      <li class="ftr-install" data-install hidden>${ic('down')}<button type="button">${ar ? 'حمّل تطبيق مجموعة ساجد' : 'Get the Sajid Group app'}</button></li>
       <li>${ic('clock')}<span>${x(C.hours)[0]}: ${x(C.hours)[1]}<br>${x(C.hours)[2]}: ${x(C.hours)[3]}<br><span class="open-badge" data-open hidden></span></span></li></ul></div>
   </div>
   <div class="wrap ftr-bot"><span>&copy; <span id="yr">2026</span> ${x(S.full)}. ${x(S.rights)}</span><a href="${C.itoasis}" target="_blank" rel="noopener">${x(S.itPartner)} ${ic('ext', 'ic xs')}</a></div>
@@ -286,13 +286,13 @@ ${body}
 <div class="ios-tip" id="ios-tip" role="dialog" aria-modal="true" aria-labelledby="ios-tip-h" hidden><div class="ios-box">
   <button class="ios-x" type="button" aria-label="${ar ? 'إغلاق' : 'Close'}">&times;</button>
   <img src="${img}icon-192.png" alt="" width="64" height="64">
-  <h3 id="ios-tip-h">${ar ? 'أضف اختصار مجموعة ساجد' : 'Add a Sajid Group shortcut'}</h3>
-  <p class="ios-sub">${ar ? 'أيقونة على شاشتك الرئيسية تفتح موقعنا في المتصفح بلمسة واحدة.' : 'An icon on your home screen that opens our website in your browser with one tap.'}</p>
+  <h3 id="ios-tip-h">${ar ? 'أضف تطبيق مجموعة ساجد' : 'Add the Sajid Group app'}</h3>
+  <p class="ios-sub">${ar ? 'أيقونة مجموعة ساجد على شاشتك الرئيسية، تفتح بلمسة واحدة.' : 'The Sajid Group icon on your home screen, one tap to open.'}</p>
   <a class="tip-add tip-chrome" href="#" hidden>${ic('ext', 'ic xs')}${ar ? 'افتح في Chrome' : 'Open in Chrome'}</a>
   <p class="tip-or" hidden>${ar ? 'ثم اضغط <b>أضف إلى الشاشة الرئيسية</b>. أو يدوياً:' : 'Then tap <b>Add to home screen</b> there. Or do it by hand:'}</p>
   <button class="tip-add" type="button" hidden>${ic('down', 'ic xs')}${ar ? 'أضف إلى الشاشة الرئيسية' : 'Add to home screen'}</button>
   <ol data-os="ios"><li>${ar ? 'اضغط زر <b>المشاركة</b> في Safari' : 'Tap the <b>Share</b> button in Safari'} <span class="ios-share" aria-hidden="true">${ic('share', 'ic xs')}</span></li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home Screen</b>'}</li><li>${ar ? 'اضغط <b>إضافة</b>' : 'Tap <b>Add</b>'}</li></ol>
-  <ol data-os="android" hidden><li>${ar ? 'اضغط قائمة المتصفح <b>⋮</b> في الأعلى' : 'Tap the browser menu <b>⋮</b> at the top'}</li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home screen</b>'}</li><li>${ar ? 'اختر <b>إنشاء اختصار</b> ثم <b>إضافة</b>' : 'Pick <b>Create shortcut</b>, then <b>Add</b>'}</li></ol>
+  <ol data-os="android" hidden><li>${ar ? 'اضغط قائمة المتصفح <b>⋮</b> في الأعلى' : 'Tap the browser menu <b>⋮</b> at the top'}</li><li>${ar ? 'اختر <b>إضافة إلى الشاشة الرئيسية</b>' : 'Choose <b>Add to Home screen</b>'}</li><li>${ar ? 'اضغط <b>إضافة</b> أو <b>تثبيت</b>' : 'Tap <b>Add</b> or <b>Install</b>'}</li></ol>
 </div></div>
 <button class="to-top" type="button" aria-label="${ar ? 'العودة إلى الأعلى' : 'Back to top'}">${ic('up')}</button>
 <script src="${base}app.js" defer></script>
