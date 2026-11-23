@@ -352,6 +352,7 @@ ${body}
       <p class="hx-lead" data-intro="4">${T('Interiors, real estate, pest control, advertising, corporate services and IT across Dubai. Six licensed companies, one number to call.', 'الديكور والعقارات ومكافحة الحشرات والإعلان وخدمات الشركات وتقنية المعلومات في دبي. ست شركات مرخصة ورقم واحد للتواصل.')}</p>
       <ul class="hx-trust" data-intro="5"><li><b data-count="6">6</b>${T('licensed companies', 'شركات مرخصة')}</li><li><b dir="ltr" data-count="60" data-count-suffix="+">60+</b>${T('services', 'خدمة')}</li><li><b>${ic('check', 'ic xs')}</b>${T('Authority approved', 'معتمدون حكومياً')}</li></ul>
     </div>
+    <img class="hero-sky-m" src="${img}hero-skyline.webp" alt="" aria-hidden="true" width="1058" height="508" loading="eager" decoding="async">
     <form class="qcard qbar" id="qcard" action="booking.html" method="get" data-intro="6" data-border="spin">
       <p class="qcard-k">${T('Quick request', 'طلب سريع')}</p>
       <h2 class="qcard-h">${T('What do you need today?', 'ما الذي تحتاجه اليوم؟')}</h2>

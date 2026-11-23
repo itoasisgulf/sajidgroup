@@ -9,6 +9,8 @@
 @keyframes hx-sky{from{opacity:0;scale:1.14;filter:brightness(.6)}to{scale:1.04}}
 @keyframes hx-kb{from{scale:1.04}to{scale:1.1}}
 
+.hero2 .hero-sky-m{display:none}
+
 /* title: per-letter rise, then a gold highlight sweeps across every ~6s */
 .hero2 .hx-big:not(.hx-split){visibility:hidden;animation:hx-vis 1ms 1.4s forwards}
 @keyframes hx-vis{to{visibility:visible}}
@@ -66,10 +68,14 @@
 .hx-beam2,.hx-spot{display:none}
 .hx-beam{width:34vw;opacity:0}
 .hx-ln3{display:none}
-/* phones/tablets: skyline becomes a clear gold band at the top of the hero, fading into the dark behind the headline */
-.hero.hero2:has(.hero-center),.hero.hero2{padding-top:calc(clamp(100px,41vw,360px));padding-bottom:36px}
-.hero2 .hero-sky{top:0;bottom:auto;left:0;right:0;width:100%;max-width:none;opacity:1;transform-origin:50% 0;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 58%,transparent 100%)}
-[dir=rtl] .hero2 .hero-sky{left:0;right:0;transform-origin:50% 0}
+/* phones/tablets: the skyline sits in the flow between the stats and the quick request, a gold band that fades into the dark at both edges */
+.hero.hero2:has(.hero-center),.hero.hero2{padding-bottom:36px}
+.hero2 .hero-bg .hero-sky{display:none}
+.hero2 .hero-sky-m{display:block;position:relative;z-index:0;width:calc(100% + 32px);max-width:none;height:auto;margin:-6px -16px -34px;pointer-events:none;mix-blend-mode:screen;opacity:.95;transform-origin:50% 100%;animation:hx-sky-m 1500ms var(--hx-e) 900ms both,hx-kb-m 40s ease-in-out 2400ms 1 forwards;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24%,#000 62%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 24%,#000 62%,transparent 100%)}
+[dir=rtl] .hero2 .hero-sky-m{scale:-1 1}
+.hero2 .qbar{position:relative;z-index:1}
+@keyframes hx-sky-m{from{opacity:0}}
+@keyframes hx-kb-m{from{transform:scale(1)}to{transform:scale(1.04)}}
 .hx-lines{display:none}
 }
 
