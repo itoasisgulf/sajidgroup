@@ -242,7 +242,7 @@ ${fonts}${preload}
 ${ldTag}
 </head>
 <body>
-<a class="skip" href="#main">${x(S.skip)}</a>
+<a class="skip" href="${noindex && !ar ? '/404.html' : ''}#main">${x(S.skip)}</a>
 <div class="progress" aria-hidden="true"></div>
 <div class="topbar" data-tone="dark"><div class="wrap topbar-in">
   <span class="open-badge" data-open hidden></span>
@@ -311,7 +311,7 @@ ${body}
 
   const itLogo = cls => `<div class="co-logo${cls || ''}"><img src="${img}itoasis-gulf-light-640.webp" alt="${ar ? 'شعار آي تي أويسس' : 'IT Oasis Gulf logo'}" loading="lazy" width="260" height="142"></div>`;
   const quoteMsg = d => W(T(`Hello Sajid Group, I would like a quote from ${d.name.en}.`, `مرحباً مجموعة ساجد، أود الحصول على عرض سعر من ${d.name.ar}.`));
-  const media = (d, cls = '') => d.logo ? itLogo(cls) : `<img ${rimg(d.img, '(max-width: 700px) 100vw, 600px')} alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" loading="lazy" decoding="async" width="1200" height="750">`;
+  const media = (d, cls = '') => d.logo ? itLogo(cls) : `<img ${rimg(d.img, '(max-width: 700px) 1100px, 900px')} alt="${T(`${d.tag.en} in Dubai by ${d.name.en}`, x(d.name))}" loading="lazy" decoding="async" width="1200" height="750">`;
   const card = (d, i = 0) => `<article class="co${i === 0 ? ' co-wide' : ''}" data-reveal="up" data-tilt="3" data-spotlight>
   <a class="co-media" data-reveal="img" href="${d.slug}.html" tabindex="-1" aria-hidden="true">${media(d)}<span class="co-num">0${D.indexOf(d) + 1}</span></a>
   <div class="co-body"><p class="eyebrow">${ic(d.icon, 'ic xs')}${x(d.short)}</p><h3><a href="${d.slug}.html">${x(d.name)}</a></h3><p>${x(d.tag)}.</p>
@@ -367,7 +367,7 @@ ${body}
   <a class="link" href="companies.html">${T('See all companies', 'عرض جميع الشركات')} ${ic('arrow', 'ic xs')}</a></div>
   <div class="deck" data-reveal="scale" data-deck aria-roledescription="carousel" aria-label="${x(S.ourCos)}">
       ${D.map((d, i) => `<article class="dcard" data-i="${i}" aria-label="${x(d.name)}">
-        <div class="dc-media">${d.logo ? `<div class="dc-logo"><img src="${img}itoasis-gulf-light-640.webp" alt="" loading="lazy" width="260" height="142"></div>` : `<img ${rimg(d.img, '(max-width: 700px) 80vw, 360px')} alt="" loading="${i < 3 ? 'eager' : 'lazy'}"${i === 0 ? ' fetchpriority="high"' : ''} decoding="async" width="1200" height="750">`}</div>
+        <div class="dc-media">${d.logo ? `<div class="dc-logo"><img src="${img}itoasis-gulf-light-640.webp" alt="" loading="lazy" width="260" height="142"></div>` : `<img ${rimg(d.img, '(max-width: 700px) 1100px, 520px')} alt="" loading="${i < 3 ? 'eager' : 'lazy'}"${i === 0 ? ' fetchpriority="high"' : ''} decoding="async" width="1200" height="750">`}</div>
         <div class="dc-body"><p class="dc-k">${x(d.short)}</p><h3><a href="${d.slug}.html">${x(d.name)}</a></h3>
         <div class="dc-btns"><a class="dc-q" href="${quoteMsg(d)}" target="_blank" rel="noopener">${T('Quote', 'عرض سعر')}</a><a class="dc-b" href="booking.html?s=${d.slug}.0">${T('Book', 'احجز')}</a></div></div>
       </article>`).join('')}
@@ -428,7 +428,7 @@ ${faqSection(HOME_FAQ)}${cta()}` });
     pages.push({ file: `${d.slug}.html`, active: 'companies.html', title: T(seo.title, `${d.name.ar} | مجموعة ساجد دبي`),
       ld: ar ? [] : [bizLd, crumbUrls(cr), faqLd(seo.faq, pageUrl)],
       desc: T(seo.desc, `${d.name.ar}، إحدى شركات مجموعة ساجد في دبي: ${d.tag.ar}. اتصل أو راسلنا على واتساب ${C.phones[0]}.`),
-      body: `<section class="cohero${d.logo ? ' cohero-logo' : ''}" data-tone="dark" data-glow>${d.logo ? '<div class="sg-aurora" aria-hidden="true"></div>' : `<img class="cohero-bg" data-parallax="0.08" ${rimg(d.img, '100vw')} alt="" fetchpriority="high" width="1200" height="750">`}<div class="wrap cohero-in">${crumbs(cr)}
+      body: `<section class="cohero${d.logo ? ' cohero-logo' : ''}" data-tone="dark" data-glow>${d.logo ? '<div class="sg-aurora" aria-hidden="true"></div>' : `<img class="cohero-bg" data-parallax="0.08" ${rimg(d.img, '(max-width: 700px) 1100px, 100vw')} alt="" fetchpriority="high" width="1200" height="750">`}<div class="wrap cohero-in">${crumbs(cr)}
   <div class="cohero-copy"><p class="eyebrow" data-intro="2">${ic(d.icon, 'ic xs')}${x(d.short)}</p><h1 data-intro="3" data-intro-keep>${x(d.name)}</h1><p class="lead" data-intro="4">${x(d.intro)}</p>
   <div class="btns" data-intro="5"><a class="btn btn-gold" data-magnetic data-shine="idle" href="${quoteMsg(d)}" target="_blank" rel="noopener">${ic('wa')}${T('Get a free quote', 'احصل على عرض سعر مجاني')}</a><a class="btn btn-line" data-magnetic href="booking.html?s=${d.slug}.0">${ic('cal')}${x(S.book)}</a><a class="btn btn-line" data-magnetic href="${tel(C.phones[0])}">${ic('phone')}${num(C.phones[0])}</a></div></div>
   ${d.logo ? `<div class="cohero-mark" data-intro="6">${itLogo(' big')}</div>` : ''}</div></section>` + `<section class="sec"><div class="wrap split top">

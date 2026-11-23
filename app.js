@@ -1,7 +1,17 @@
 document.documentElement.classList.add('js');
 (() => {
   const b = document.querySelector('.burger'), n = document.getElementById('nav');
-  if (b) b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o); });
+  if (b && n) {
+    const setNav = (o, back) => {
+      n.classList.toggle('open', o); b.setAttribute('aria-expanded', o ? 'true' : 'false');
+      document.documentElement.style.overflow = o ? 'hidden' : '';
+      if (o) { const l = n.querySelector('a'); if (l) setTimeout(() => { if (n.classList.contains('open')) l.focus(); }, 280); } else if (back) b.focus();
+    };
+    b.addEventListener('click', () => setNav(!n.classList.contains('open'), true));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) setNav(false, true); });
+  }
+  const sk = document.querySelector('.skip');
+  if (sk) sk.addEventListener('click', e => { const m = document.getElementById('main'); if (m) { e.preventDefault(); m.tabIndex = -1; m.focus(); m.scrollIntoView(); } });
   const y = document.getElementById('yr'); if (y) y.textContent = new Date().getFullYear();
 
   const root = document.documentElement, ar0 = root.lang === 'ar';
@@ -12,7 +22,7 @@ document.documentElement.classList.add('js');
   const meta = document.querySelector('meta[name="theme-color"]');
   const setTheme = t => {
     root.setAttribute('data-theme', t);
-    if (tt) tt.setAttribute('aria-pressed', t === 'light');
+    if (tt) tt.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
     if (meta) meta.content = t === 'light' ? '#faf7f0' : '#0b0b0c';
   };
   setTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
@@ -172,7 +182,7 @@ document.documentElement.classList.add('js');
   // Quote and booking forms: send the details to WhatsApp or email (no server needed)
   const PH = '971528264786', MAIL = 'sajiid.group@gmail.com';
   const ar = document.documentElement.lang === 'ar';
-  const sel = (f, n) => { const e = f.elements[n]; return e && e.selectedOptions ? e.selectedOptions[0].text : (e ? e.value : ''); };
+  const sel = (f, n) => { const e = f.elements[n]; return e && e.selectedOptions && e.selectedOptions[0] ? e.selectedOptions[0].text : (e ? e.value : ''); };
   const wire = (f, isBook) => {
     f.addEventListener('click', e => {
       const btn = e.target.closest('button[data-via]'); if (!btn) return;
@@ -194,7 +204,7 @@ document.documentElement.classList.add('js');
   if (bk) {
     wire(bk, true);
     const dt = bk.elements.date; if (dt) { const t = new Date(); dt.min = new Date(t - t.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
-    const pre = new URLSearchParams(location.search).get('s'); if (pre && bk.elements.service) bk.elements.service.value = pre;
+    const pre = new URLSearchParams(location.search).get('s'); if (pre && bk.elements.service) { const s = bk.elements.service; s.value = pre; if (s.selectedIndex < 0 || s.value !== pre) { const o = [...s.options].find(o => o.value.split('.')[0] === pre.split('.')[0]); s.value = o ? o.value : (s.options[0] ? s.options[0].value : ''); } }
   }
 
   // Services page: search and filter by company
